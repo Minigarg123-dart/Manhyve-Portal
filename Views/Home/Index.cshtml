@@ -1,0 +1,298 @@
+﻿
+<div class="container-fluid">
+
+        <!-- Header Row -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <!-- Left Side -->
+            <div>
+                <h3 class="mb-0">ManHyve Dashboard</h3>
+                <p class="mb-0 text-muted">Monitor and manage your operations</p>
+            </div>
+
+        <!-- Right Side: MASTER Button -->
+        <div class="d-flex gap-2">
+
+            <select class="form-select w-auto">
+                <option selected>All Brands</option>
+                <option>Castrol</option>
+                <option>Mobil</option>
+                <option>Berger</option>
+                <option>CMC</option>
+                <option>Bata</option>
+            </select>
+
+            <!-- MASTER Button -->
+            <button class="btn btn-sm btn-primary">
+                MASTER
+            </button>
+
+        </div>
+        </div>
+
+    <!-- Cards -->
+    <!-- Analytical Overview -->
+    <div class="card p-4 mt-4">
+
+        <!-- Title -->
+        <h5 class="mb-3">Analytical Overview</h5>
+
+        <!-- Filters BELOW title -->
+        <div class="d-flex gap-2 flex-wrap mb-3">
+
+            <select class="form-select form-select-sm w-auto">
+                <option>None</option>
+            </select>
+
+            <select class="form-select form-select-sm w-auto">
+                <option>All Years</option>
+            </select>
+
+            <select class="form-select form-select-sm w-auto">
+                <option>All Months</option>
+            </select>
+
+            <select class="form-select form-select-sm w-auto">
+                <option>All Weeks</option>
+            </select>
+
+            <button class="btn btn-sm btn-primary">Apply</button>
+            <button class="btn btn-sm text-white"
+                    style="background-color: #28a745; border-radius: 6px; border: none;">
+                Export CSV
+            </button>
+        </div>
+
+        <!-- Cards -->
+        <div class="row g-3">
+
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h6>Total Stores</h6>
+                    <h3>0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h6>Audit Completed</h6>
+                    <h3>0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h6>Completion %</h6>
+                    <h3>0%</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h6>Pending Approval</h6>
+                    <h3>0</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Chart Area -->
+    <div class="card p-4 mt-4">
+
+        <!-- TOP ROW -->
+        <div class="d-flex align-items-start mb-3">
+
+            <!-- LEFT: Charts -->
+            <div class="border-end pe-3" style="min-width:150px;">
+                <p class="fw-semibold mb-2">Charts</p>
+                <div class="d-flex flex-column gap-2 w-100" id="chartButtons">
+
+                    <!-- Initially selected -->
+                    <button class="btn btn-sm btn-primary text-start">
+                        Density
+                    </button>
+
+                    <!-- Unselected -->
+                    <button class="btn btn-sm text-start">Pie</button>
+                    <button class="btn btn-sm text-start">Funnel</button>
+                    <button class="btn btn-sm text-start">Dual Axis</button>
+                    <button class="btn btn-sm text-start">Area</button>
+
+                </div>
+            </div>
+
+            <!-- RIGHT: Title -->
+            <div class="ps-3 w-100">
+                <div class="mb-1">
+                <h5 class="mb-1">Audit Distribution</h5>
+                <p class="text-muted mb-0">
+                    Mapping the volume of attempts vs completions across the timeline
+                </p>
+                </div>
+                <div class="d-flex mb-3">
+                    <div></div>
+
+                    <!-- GRAPH + RANGE -->
+                    <div class="flex-grow-1">
+                        <!-- GRAPH -->
+                        <div class="row mt-1">
+
+                            <div class="col-12">
+                                <!-- FULL WIDTH -->
+                                <div style="height:200px;background:#eef1f5;border-radius:10px;">
+            
+                                    <div class="border rounded p-3 h-100 d-flex flex-column justify-content-center">
+
+                                        <div class="d-flex justify-content-between">
+                                            <small>Start</small>
+                                            <small>End</small>
+                                        </div>
+
+                                        <div style="height:4px;background:#ccc;border-radius:5px;margin:10px 0;"></div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <small>0</small>
+                                            <small>100</small>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- New Row: Agents & All Stores -->
+    <div class="row g-3 mt-4 d-flex align-items-stretch">
+        <!-- Left: Agents Card -->
+        <div class="col-md-6 d-flex">
+            <div class="card p-3 flex-fill">
+                <!-- Header: Title + Total -->
+   
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h6 class="mb-1">AGENTS</h6>
+                        <div class="text-muted small">149 Total</div>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="input-group" style="width: 200px;">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="Search agents">
+                    </div>
+                </div>
+
+                <!-- Agents List -->
+                <div class="list-group list-group-flush">
+                    <!-- Single Agent -->
+                    <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                        <div>
+                            <div class="fw-semibold">John Doe</div>
+                            <div class="text-muted small">john@example.com</div>
+                        </div>
+                        <span class="badge bg-success rounded-pill">Active</span>
+                    </div>
+
+                    <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                        <div>
+                            <div class="fw-semibold">Jane Smith</div>
+                            <div class="text-muted small">jane@example.com</div>
+                        </div>
+                        <span class="badge bg-success rounded-pill">Active</span>
+                    </div>
+
+                    <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                        <div>
+                            <div class="fw-semibold">Alice Johnson</div>
+                            <div class="text-muted small">alice@example.com</div>
+                        </div>
+                        <span class="badge bg-success rounded-pill">Active</span>
+                    </div>
+
+                    <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                        <div>
+                            <div class="fw-semibold">Bob Williams</div>
+                            <div class="text-muted small">bob@example.com</div>
+                        </div>
+                        <span class="badge bg-success rounded-pill">Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: All Stores Card -->
+        <div class="col-md-6 d-flex">
+            <div class="card p-3 flex-fill">
+                <!-- Header: Title + Total + Search -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h6 class="mb-1">All Stores</h6>
+                        <div class="text-muted small">0 Total</div>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="input-group" style="width: 200px;">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="Search stores">
+                    </div>
+                </div>
+
+                <!-- No Stores Found Box -->
+                <div class="d-flex justify-content-center align-items-center"
+                     style="height:100px; border:2px dashed #ccc; border-radius:5px; margin-bottom:15px;">
+                    <span class="text-muted">No stores found</span>
+                </div>
+
+                <!-- Brands Dropdown Full Width -->
+                <select class="form-select w-100">
+                    <option selected>Select Brand</option>
+                    <option>Castrol</option>
+                    <option>Mobil</option>
+                    <option>Berger</option>
+                    <option>CMC</option>
+                    <option>Bata</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const btnContainer = document.getElementById('chartButtons');
+    const buttons = btnContainer.querySelectorAll('button');
+
+    buttons.forEach(btn => {
+        // Hover effect
+        btn.addEventListener('mouseenter', () => {
+            if (!btn.classList.contains('btn-primary')) {
+                btn.style.backgroundColor = '#e9ecef';
+            }
+        });
+        btn.addEventListener('mouseleave', () => {
+            if (!btn.classList.contains('btn-primary')) {
+                btn.style.backgroundColor = '';
+            }
+        });
+
+        // Click to select
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => {
+                b.classList.remove('btn-primary', 'text-white');
+                b.style.backgroundColor = ''; // remove hover background from previous
+            });
+            btn.classList.add('btn-primary', 'text-white');
+        });
+    });
+</script>
