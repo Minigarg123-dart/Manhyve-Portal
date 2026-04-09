@@ -1,22 +1,31 @@
-﻿
+﻿<div id="openSidebarBtn"
+     onclick="toggleSidebar()"
+     style="display:none; position:fixed; top:15px; left:15px; font-size:20px; cursor:pointer; z-index:1000;">
+    <i class="fas fa-bars"></i>
+</div>
 <div class="sidebar">
 
     <!-- Logo -->
-    <div class="sidebar-logo">
-        <i class="fas fa-bars"></i>  <!-- ICON -->
-        ManHyve
-    </div>
 
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <i class="fas fa-bars me-2"></i>
+            <span>ManHyve</span>
+        </div>
+
+        <!-- ❌ Close Button -->
+        <i class="fas fa-times" style="cursor:pointer;" onclick="toggleSidebar()"></i>
+    </div>
     <div class="sidebar-divider"></div>
 
     <!-- GLOBAL -->
     <div class="sidebar-section">GLOBAL</div>
 
-    <a href="#" class="active">
+    <a href="/Home/Index" class="active">
         <i class="fas fa-home me-2"></i> Dashboard
     </a>
 
-    <a href="#">
+    <a href="/Home/UserManagement">
         <i class="fas fa-users me-2"></i> User Management
     </a>
 
@@ -35,9 +44,7 @@
             </h2>
 
             <div id="projects" class="accordion-collapse collapse" data-bs-parent="#projectAccordion">
-
-               @*  <div class="accordion" id="projectAccordion"> *@
-
+                <input type="hidden" id="currentProjectName" value="@ViewBag.ProjectName" />
                     <!-- Castrol -->
                     <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -52,21 +59,125 @@
                         <div id="castrol" class="accordion-collapse collapse">
                             <div class="accordion-body p-0">
                             <ul class="submenu list-unstyled ps-3">
-                                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>Dashboard Page</li>
-                                <li class ="mb-2"><i class="fas fa-users me-2"></i>User Management</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Create Form</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Form Page</li>
-                                <li class="mb-2"><i class="fas fa-upload me-2"></i> Upload Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-eye me-2"></i>View Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-user-plus me-2"></i>Add Field Force</li>
-                                <li class="mb-2"><i class="fas fa-clipboard-check me-2"></i> Create Audit</li>
-                                <li class="mb-2"><i class="fas fa-cogs me-2"></i> Manage Audits</li>
-                                <li class="mb-2"><i class="fas fa-palette me-2"></i>Manage Branding</li>
-                                <li class="mb-2"><i class="fas fa-store me-2"></i>Create & Manage Stores</li>
-                                <li class="mb-2"><i class="fas fa-truck me-2"></i>Manage Vendors</li>
-                                <li class="mb-2"><i class="fas fa-calendar-check me-2"></i>Audit Assignments</li>
-                                <li class="mb-2"><i class="fas fa-paint-brush me-2"></i>Branding Assignments</li>
-                                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Audit Approvals</li>
+                                <li class="mb-2">
+                                    <a href="/Dashboard/Dashboard?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/UserManagement/Index?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-users me-2"></i>User Management
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/NewForm?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Create Form
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/FormPage?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Form Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/UploadDemoImages?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-upload me-2"></i> Upload Demo Images
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/ViewDemoImages?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-eye me-2"></i>View Demo Images
+                                    </a>
+                                </li>
+                                @* <li class="mb-2">
+                                    <a href="/FieldForce/AddAgent?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Add Field Force
+                                    </a>
+                                </li> *@
+                                <li class="mb-2">
+                                    <a href="/Audit/CreateAudit?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-clipboard-check me-2"></i> Create Audit
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/ManageAudits?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-cogs me-2"></i> Manage Audits
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/ManageBranding?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-palette me-2"></i>Manage Branding
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Stores/CreateManageStores?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-store me-2"></i>Create & Manage Stores
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageFieldForce?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Manage Field Force
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageVendors?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-truck me-2"></i>Manage Vendors
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/AuditAssignments?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-calendar-check me-2"></i>Audit Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/BrandingAssignments?projectName=Castrol"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-paint-brush me-2"></i>Branding Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-check-circle me-2"></i> Audit Approvals
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="/Stores/StoreAudits?projectName=Castrol"
+                                       style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-search me-2"></i> Store Audits
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="/Stores/UploadStoreData?projectName=Castrol"
+                                       style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-database me-2"></i> Upload Data
+                                    </a>
+                                </li>
+
+                               @*  <li class="mb-2">
+                                    <a href=""
+                                       style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-credit-card me-2"></i> Payment Requests
+                                    </a>
+                                </li> *@
                                 </ul>
                             </div>
                         </div>
@@ -86,21 +197,125 @@
                         <div id="mobil" class="accordion-collapse collapse">
                         <div class="accordion-body p-0">
                             <ul class="submenu list-unstyled ps-3">
-                                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>Dashboard Page</li>
-                                <li class="mb-2"><i class="fas fa-users me-2"></i>User Management</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Create Form</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Form Page</li>
-                                <li class="mb-2"><i class="fas fa-upload me-2"></i> Upload Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-eye me-2"></i>View Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-user-plus me-2"></i>Add Field Force</li>
-                                <li class="mb-2"><i class="fas fa-clipboard-check me-2"></i> Create Audit</li>
-                                <li class="mb-2"><i class="fas fa-cogs me-2"></i> Manage Audits</li>
-                                <li class="mb-2"><i class="fas fa-palette me-2"></i>Manage Branding</li>
-                                <li class="mb-2"><i class="fas fa-store me-2"></i>Create & Manage Stores</li>
-                                <li class="mb-2"><i class="fas fa-truck me-2"></i>Manage Vendors</li>
-                                <li class="mb-2"><i class="fas fa-calendar-check me-2"></i>Audit Assignments</li>
-                                <li class="mb-2"><i class="fas fa-paint-brush me-2"></i>Branding Assignments</li>
-                                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Audit Approvals</li>
+                                <li class="mb-2">
+                                    <a href="/Dashboard/Dashboard?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/UserManagement/Index?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-users me-2"></i>User Management
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/NewForm?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Create Form
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/FormPage?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Form Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/UploadDemoImages?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-upload me-2"></i> Upload Demo Images
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/ViewDemoImages?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-eye me-2"></i>View Demo Images
+                                    </a>
+                                </li>
+                                @* <li class="mb-2">
+                                    <a href="/FieldForce/AddAgent?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Add Field Force
+                                    </a>
+                                </li> *@
+                                <li class="mb-2">
+                                    <a href="/Audit/CreateAudit?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-clipboard-check me-2"></i> Create Audit
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/ManageAudits?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-cogs me-2"></i> Manage Audits
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/ManageBranding?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-palette me-2"></i>Manage Branding
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Stores/CreateManageStores?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-store me-2"></i>Create & Manage Stores
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageFieldForce?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Manage Field Force
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageVendors?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-truck me-2"></i>Manage Vendors
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/AuditAssignments?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-calendar-check me-2"></i>Audit Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/BrandingAssignments?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-paint-brush me-2"></i>Branding Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-check-circle me-2"></i> Audit Approvals
+                                    </a>
+                                </li>
+                                
+                                <li class="mb-2">
+                                    <a href="/Stores/StoreAudits?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-search me-2"></i> Store Audits
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="/Stores/UploadStoreData?projectName=Mobil"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-database me-2"></i> Upload Data
+                                    </a>
+                                </li>
+
+                               @*  <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-credit-card me-2"></i> Payment Requests
+                                    </a>
+                                </li> *@
                             </ul>
                         </div>
                         </div>
@@ -120,25 +335,130 @@
                         <div id="berger" class="accordion-collapse collapse">
                         <div class="accordion-body p-0">
                             <ul class="submenu list-unstyled ps-3">
-                                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>Dashboard Page</li>
-                                <li class="mb-2"><i class="fas fa-users me-2"></i>User Management</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Create Form</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Form Page</li>
-                                <li class="mb-2"><i class="fas fa-upload me-2"></i> Upload Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-eye me-2"></i>View Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-user-plus me-2"></i>Add Field Force</li>
-                                <li class="mb-2"><i class="fas fa-clipboard-check me-2"></i> Create Audit</li>
-                                <li class="mb-2"><i class="fas fa-cogs me-2"></i> Manage Audits</li>
-                                <li class="mb-2"><i class="fas fa-palette me-2"></i>Manage Branding</li>
-                                <li class="mb-2"><i class="fas fa-store me-2"></i>Create & Manage Stores</li>
-                                <li class="mb-2"><i class="fas fa-truck me-2"></i>Manage Vendors</li>
-                                <li class="mb-2"><i class="fas fa-calendar-check me-2"></i>Audit Assignments</li>
-                                <li class="mb-2"><i class="fas fa-paint-brush me-2"></i>Branding Assignments</li>
-                                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Audit Approvals</li>
+                                <li class="mb-2">
+                                    <a href="/Dashboard/Dashboard?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/UserManagement/Index?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-users me-2"></i>User Management
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/NewForm?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Create Form
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/FormPage?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Form Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/UploadDemoImages?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-upload me-2"></i> Upload Demo Images
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/ViewDemoImages?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-eye me-2"></i>View Demo Images
+                                    </a>
+                                </li>
+                                @* <li class="mb-2">
+                                    <a href="/FieldForce/AddAgent?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Add Field Force
+                                    </a>
+                                </li> *@
+                                <li class="mb-2">
+                                    <a href="/Audit/CreateAudit?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-clipboard-check me-2"></i> Create Audit
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/ManageAudits?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-cogs me-2"></i> Manage Audits
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/ManageBranding?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-palette me-2"></i>Manage Branding
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Stores/CreateManageStores?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-store me-2"></i>Create & Manage Stores
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageFieldForce?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Manage Field Force
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageVendors?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-truck me-2"></i>Manage Vendors
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/AuditAssignments?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-calendar-check me-2"></i>Audit Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/BrandingAssignments?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-paint-brush me-2"></i>Branding Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-check-circle me-2"></i> Audit Approvals
+                                    </a>
+                                </li>
+                                
+                                <li class="mb-2">
+                                    <a href="/Stores/StoreAudits?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-search me-2"></i> Store Audits
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="/Stores/UploadStoreData?projectName=Berger"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-database me-2"></i> Upload Data
+                                    </a>
+                                </li>
+
+                                @* <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-credit-card me-2"></i> Payment Requests
+                                    </a>
+                                </li> *@
                             </ul>
                         </div>
                         </div>
                     </div>
+
                     <!-- CMC -->
                     <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -153,25 +473,130 @@
                         <div id="cmc" class="accordion-collapse collapse">
                         <div class="accordion-body p-0">
                             <ul class="submenu list-unstyled ps-3">
-                                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>Dashboard Page</li>
-                                <li class="mb-2"><i class="fas fa-users me-2"></i>User Management</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Create Form</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Form Page</li>
-                                <li class="mb-2"><i class="fas fa-upload me-2"></i> Upload Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-eye me-2"></i>View Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-user-plus me-2"></i>Add Field Force</li>
-                                <li class="mb-2"><i class="fas fa-clipboard-check me-2"></i> Create Audit</li>
-                                <li class="mb-2"><i class="fas fa-cogs me-2"></i> Manage Audits</li>
-                                <li class="mb-2"><i class="fas fa-palette me-2"></i>Manage Branding</li>
-                                <li class="mb-2"><i class="fas fa-store me-2"></i>Create & Manage Stores</li>
-                                <li class="mb-2"><i class="fas fa-truck me-2"></i>Manage Vendors</li>
-                                <li class="mb-2"><i class="fas fa-calendar-check me-2"></i>Audit Assignments</li>
-                                <li class="mb-2"><i class="fas fa-paint-brush me-2"></i>Branding Assignments</li>
-                                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Audit Approvals</li>
+                                <li class="mb-2">
+                                    <a href="/Dashboard/Dashboard?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/UserManagement/Index?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-users me-2"></i>User Management
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/NewForm?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Create Form
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/FormPage?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Form Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/UploadDemoImages?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-upload me-2"></i> Upload Demo Images
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/ViewDemoImages?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-eye me-2"></i>View Demo Images
+                                    </a>
+                                </li>
+                                @* <li class="mb-2">
+                                    <a href="/FieldForce/AddAgent?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Add Field Force
+                                    </a>
+                                </li> *@
+                                <li class="mb-2">
+                                    <a href="/Audit/CreateAudit?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-clipboard-check me-2"></i> Create Audit
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/ManageAudits?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-cogs me-2"></i> Manage Audits
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/ManageBranding?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-palette me-2"></i>Manage Branding
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Stores/CreateManageStores?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-store me-2"></i>Create & Manage Stores
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageFieldForce?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Manage Field Force
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageVendors?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-truck me-2"></i>Manage Vendors
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/AuditAssignments?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-calendar-check me-2"></i>Audit Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/BrandingAssignments?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-paint-brush me-2"></i>Branding Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-check-circle me-2"></i> Audit Approvals
+                                    </a>
+                                </li>
+                                
+                                <li class="mb-2">
+                                    <a href="/Stores/StoreAudits?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-search me-2"></i> Store Audits
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="/Stores/UploadStoreData?projectName=CMC"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-database me-2"></i> Upload Data
+                                    </a>
+                                </li>
+
+                                @* <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-credit-card me-2"></i> Payment Requests
+                                    </a>
+                                </li> *@
                             </ul>
                         </div>
                         </div>
                     </div>
+
                     <!-- Bata -->
                     <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -186,75 +611,232 @@
                         <div id="bata" class="accordion-collapse collapse">
                         <div class="accordion-body p-0">
                             <ul class="submenu list-unstyled ps-3">
-                                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>Dashboard Page</li>
-                                <li class="mb-2"><i class="fas fa-users me-2"></i>User Management</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Create Form</li>
-                                <li class="mb-2"><i class="fas fa-file-alt me-2"></i>Form Page</li>
-                                <li class="mb-2"><i class="fas fa-upload me-2"></i> Upload Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-eye me-2"></i>View Demo Images</li>
-                                <li class="mb-2"><i class="fas fa-user-plus me-2"></i>Add Field Force</li>
-                                <li class="mb-2"><i class="fas fa-clipboard-check me-2"></i> Create Audit</li>
-                                <li class="mb-2"><i class="fas fa-cogs me-2"></i> Manage Audits</li>
-                                <li class="mb-2"><i class="fas fa-palette me-2"></i>Manage Branding</li>
-                                <li class="mb-2"><i class="fas fa-store me-2"></i>Create & Manage Stores</li>
-                                <li class="mb-2"><i class="fas fa-truck me-2"></i>Manage Vendors</li>
-                                <li class="mb-2"><i class="fas fa-calendar-check me-2"></i>Audit Assignments</li>
-                                <li class="mb-2"><i class="fas fa-paint-brush me-2"></i>Branding Assignments</li>
-                                <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Audit Approvals</li>
+                                <li class="mb-2">
+                                    <a href="/Dashboard/Dashboard?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/UserManagement/Index?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-users me-2"></i>User Management
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/NewForm?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Create Form
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/CreateForm/FormPage?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-file-alt me-2"></i>Form Page
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/UploadDemoImages?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-upload me-2"></i> Upload Demo Images
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/DemoImages/ViewDemoImages?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-eye me-2"></i>View Demo Images
+                                    </a>
+                                </li>
+                                @* <li class="mb-2">
+                                    <a href="/FieldForce/AddAgent?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Add Field Force
+                                    </a>
+                                </li> *@
+                                <li class="mb-2">
+                                    <a href="/Audit/CreateAudit?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-clipboard-check me-2"></i> Create Audit
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/ManageAudits?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-cogs me-2"></i> Manage Audits
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/ManageBranding?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-palette me-2"></i>Manage Branding
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Stores/CreateManageStores?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-store me-2"></i>Create & Manage Stores
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageFieldForce?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Manage Field Force
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/FieldForce/ManageVendors?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-truck me-2"></i>Manage Vendors
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Audit/AuditAssignments?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-calendar-check me-2"></i>Audit Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="/Branding/BrandingAssignments?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-paint-brush me-2"></i>Branding Assignments
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-check-circle me-2"></i> Audit Approvals
+                                    </a>
+                                </li>
+                                
+                                <li class="mb-2">
+                                    <a href="/Stores/StoreAudits?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-search me-2"></i> Store Audits
+                                    </a>
+                                </li>
+
+                                <li class="mb-2">
+                                    <a href="/Stores/UploadStoreData?projectName=Bata"
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-database me-2"></i> Upload Data
+                                    </a>
+                                </li>
+                               @*  <li class="mb-2">
+                                    <a href=""
+                                           style="text-decoration:none; color: inherit !important; display:flex; align-items:center; width:100%;">
+                                        <i class="fas fa-credit-card me-2"></i> Payment Requests
+                                    </a>
+                                </li> *@
                             </ul>
                         </div>
                         </div>
                     </div>
-@*                 </div> *@
             </div>
         </div>
     </div>
 
     <!-- GIG WORKER -->
-    <div class="px-3 mt-3">
+    <div class="accordion mt-2" id="gigAccordion">
 
-        <!-- Toggle Button -->
-        <button class="gig-toggle" onclick="toggleGig()">
+        <div class="accordion-item border-0">
 
-            <span class="d-flex align-items-center gap-2">
-                <!-- User Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21a8 8 0 1 0-16 0"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#gigWorkerMenu">
 
-                Gig Worker
-            </span>
+                    <!-- Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm me-2"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21a8 8 0 1 0-16 0"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
 
-            <!-- Chevron -->
-            <svg id="gigArrow" xmlns="http://www.w3.org/2000/svg" class="icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
+                    Gig Worker
+                </button>
+            </h2>
 
-        </button>
+            <div id="gigWorkerMenu" class="accordion-collapse collapse" data-bs-parent="#gigAccordion">
 
-        <!-- Submenu -->
-            <div id="gigMenu" class="gig-menu" style="display: none;">
-            <!-- Login -->
-            <a class="gig-item active" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                    <polyline points="10 17 15 12 10 7"></polyline>
-                    <line x1="15" x2="3" y1="12" y2="12"></line>
-                </svg>
-                <span>Gig Worker Login Page</span>
-            </a>
+                <div class="accordion-body p-0">
+                    <ul class="submenu list-unstyled ps-3">
 
-            <!-- Status -->
-            <a class="gig-item" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 12h-2.5a2 2 0 0 0-1.9 1.4l-2.3 8.3"></path>
-                    <path d="M9 2 6.7 10.3A2 2 0 0 1 4.8 12H2"></path>
-                </svg>
-                <span>Gig Worker Status Page</span>
-            </a>
+                        <li class="mb-2">
+                            <a href="/GigWorker/LoginPage"
+                                   style="text-decoration:none; color:inherit; display:flex; align-items:center; width:100%;">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Gig Worker Login Page
+                            </a>
+                        </li>
+
+                        <li class="mb-2">
+                            <a href="/GigWorker/GigWorkerStatus"
+                                   style="text-decoration:none; color:inherit; display:flex; align-items:center; width:100%;">
+                                <i class="fas fa-user-check me-2"></i>
+                                Gig Worker Status Page
+                            </a>
+                        </li>
+
+                        <li class="mb-2">
+                            <a href="/GigWorker/GigWorkerBulkUpload"
+                                   style="text-decoration:none; color:inherit; display:flex; align-items:center; width:100%;">
+                                <i class="fas fa-file-upload me-2"></i>
+                                Gig Worker Bulk Upload
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const params = new URLSearchParams(window.location.search);
+        let projectName = params.get("projectName");
+
+        if (!projectName) {
+            const hiddenProject = document.getElementById("currentProjectName");
+            if (hiddenProject) {
+                projectName = hiddenProject.value;
+            }
+        }
+
+        if (!projectName) return;
+
+        const projects = document.getElementById("projects");
+        if (projects) {
+            projects.classList.add("show");
+        }
+
+        // Open selected project
+        const id = projectName.toLowerCase();
+        const element = document.getElementById(id);
+
+        if (element) {
+            element.classList.add("show");
+        }
+    });
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector(".sidebar");
+            const openBtn = document.getElementById("openSidebarBtn");
+
+            sidebar.classList.toggle("collapsed");
+
+            if (sidebar.classList.contains("collapsed")) {
+                openBtn.style.display = "block";
+            } else {
+                openBtn.style.display = "none";
+            }
+        }
+</script>

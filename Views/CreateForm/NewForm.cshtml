@@ -1,0 +1,428 @@
+
+<div class="container-fluid new-form-page">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <input type="hidden" value="@ViewBag.ProjectName" />
+            <h5 class="mb-0">Form Builder</h5>
+            <p class="mb-0 text-muted">Design and create new audit forms</p>
+        </div>
+
+        <div>
+            <button class="btn btn-outline-secondary me-2">Preview</button>
+            <button class="btn btn-primary">Save Form</button>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+            <a asp-controller="CreateForm" asp-action="FormPage" asp-route-projectName="@ViewBag.ProjectName"
+                   class="btn btn-outline-secondary me-2">
+                My Forms
+            </a>
+            <button class="btn btn-primary">New Form</button>
+            <button class="btn btn-outline-secondary me-2">Preview</button>
+            <button class="btn btn-outline-secondary me-2">Save Form</button>
+        </div>
+    </div>
+
+    <!-- FORM TITLE -->
+    <div class="card mb-3 border-0 shadow-sm" style="border-radius: 8px; border: 1px solid #d0e4ff !important;">
+        <div class="card-header border-0" style="background-color: #f0f6ff; border-top-left-radius: 8px; border-top-right-radius: 8px; padding: 10px 20px;">
+            <label class="form-label mb-0 fw-bold" style="color: #495057; font-size: 0.9rem;">Form Title</label>
+        </div>
+        <div class="card-body p-3 bg-white">
+            <input type="text" class="form-control" style="border: 1px solid #e9ecef;" placeholder="Enter form title..." />
+        </div>
+    </div>
+
+    <!-- SECTION CONTAINER -->
+    <div id="sectionsContainer"></div>
+
+    <!-- ADD SECTION -->
+    @* add by me  *@
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <button class="btn btn-light mt-3" onclick="addSection()">
+            <i class="fas fa-plus me-2"></i>Add Section
+        </button>
+    </div>
+</div>
+<script>
+    let sectionCount = 0;
+
+    function getSectionHtml(id) {
+        return `
+                <!-- Plus button to insert between sections -->
+                <div class="d-flex justify-content-center my-4 add-between-btn position-relative">
+                    <button type="button" class="btn rounded-circle shadow-sm bg-white" style="width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; z-index: 1; border: 1px solid #b8daff; color: #0d6efd;" onclick="insertSectionBefore(this)" title="Insert Section">
+                        <i class="fas fa-plus" style="font-size: 16px;"></i>
+                    </button>
+                </div>
+
+                <div class="card mb-4 section-card border-0 shadow-sm" style="background-color: #f8fbff; border-radius: 12px; border: 1px solid #d0e4ff !important;" id="section_${id}">
+                    <!-- Section Header -->
+                    <div class="card-header d-flex justify-content-between align-items-center border-0" style="background-color: #f0f6ff; border-top-left-radius: 12px; border-top-right-radius: 12px; padding: 12px 20px;">
+                        <h6 class="mb-0 fw-bold" style="color: #2c3e50;">New Section</h6>
+                        <button class="btn btn-sm btn-white text-danger border bg-white shadow-sm" onclick="deleteSection(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <!-- Fields -->
+                        <div id="fields_${id}">
+                            ${getFieldHtml()}
+                        </div>
+
+                        <!-- Add Field -->
+                        <div class="text-center mt-4 mb-2">
+                            <button class="btn fw-bold w-100 bg-white" style="border: 1px dashed #b8daff; color: #0d6efd; padding: 12px; border-radius: 8px;" onclick="addField(${id})">
+                                <i class="fas fa-plus me-2"></i>Add Field
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+    }
+
+    function addSection() {
+        sectionCount++;
+        document.getElementById("sectionsContainer").insertAdjacentHTML("beforeend", getSectionHtml(sectionCount));
+    }
+
+    function insertSectionBefore(btn) {
+        sectionCount++;
+        btn.closest('.add-between-btn').insertAdjacentHTML("beforebegin", getSectionHtml(sectionCount));
+    }
+
+    let fieldCount = 0;
+
+    function getFieldHtml() {
+        fieldCount++;
+        const id = fieldCount;
+        return `
+                    <div class="row g-0 mt-3 fieldRow" id="field_${id}">
+                    <div class="col-md-12">
+                        <div class="card border shadow-sm" style="border-radius: 8px; overflow: hidden;">
+                            <div class="card-body p-4 bg-white">
+                                <!-- Question & Type Row -->
+                                <div class="row mb-3">
+                                    <div class="col-md-9 mb-2 mb-md-0">
+                                        <input type="text" class="form-control" placeholder="Question Title" style="background-color: #ffffff; border: 1px solid #e9ecef; font-weight: 500; padding: 10px 15px;" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select border" style="padding: 10px 15px;" onchange="handleFieldTypeChange(this, ${id})">
+                                            <option value="Short Text">Short Text</option>
+                                            <option value="Long Text">Long Text</option>
+                                            <option value="Number">Number</option>
+                                            <option value="Multiple Choice">Multiple Choice</option>
+                                            <option value="Checkboxes">Checkboxes</option>
+                                            <option value="Dropdown">Dropdown</option>
+                                            <option value="Date">Date</option>
+                                            <option value="Take Image">Take Image</option>
+                                            <option value="Loop Question">Loop Question</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Dynamic Properties Container -->
+                                <div id="field_properties_${id}">
+                                    ${getCountedPropertiesHtml(id, 'Short Text')}
+                                </div>
+                            </div>
+
+                            <!-- Footer (Required, Feedback, Delete) -->
+                            <div class="card-footer d-flex justify-content-between align-items-center border-top-0" style="background-color: #f0f6ff; padding: 12px 20px;">
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="req_${id}">
+                                        <label class="form-check-label fw-bold" for="req_${id}" style="font-size: 0.85rem; color: #495057;">Required</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="feed_${id}">
+                                        <label class="form-check-label fw-bold" for="feed_${id}" style="font-size: 0.85rem; color: #495057;">Feedback</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-white border bg-white text-secondary me-1" title="Copy Field">
+                                        <i class="far fa-copy"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-white border bg-white text-danger" onclick="deleteField(this)" title="Delete Field">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+    }
+
+    function handleFieldTypeChange(selectElem, id) {
+        const type = selectElem.value;
+        const propsContainer = document.getElementById(`field_properties_${id}`);
+        
+        if (type === 'Multiple Choice' || type === 'Checkboxes' || type === 'Dropdown') {
+            propsContainer.innerHTML = getOptionsHtml(id, type);
+        } else if (type === 'Short Text' || type === 'Long Text') {
+            propsContainer.innerHTML = getCountedPropertiesHtml(id, type);
+        } else if (type === 'Number') {
+            propsContainer.innerHTML = getCountedPropertiesHtml(id, type);
+        } else if (type === 'Loop Question') {
+            propsContainer.innerHTML = getLoopQuestionHtml(id);
+        } else if (type === 'Take Image') {
+            propsContainer.innerHTML = getTakeImagePropertiesHtml();
+        } else {
+            // Date - no inner properties needed
+            propsContainer.innerHTML = '';
+        }
+    }
+
+    function getOptionsHtml(id, type) {
+        return `
+                                                            <div id="options_container_${id}" data-type="${type}">
+                                                                <div class="d-flex align-items-center mb-2 option-row">
+                                                                    <input type="text" class="form-control me-2" value="Option 1" />
+                                                                    <button type="button" class="btn btn-light text-secondary px-3 py-1" onclick="removeOption(this)">
+                                                                        <i class="fas fa-times"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex align-items-center mt-2">
+                                                                <button type="button" class="btn w-100 text-primary py-2" style="border: 1px dashed #ccc; background-color: #f9fbfd;" onclick="addOption(${id})">
+                                                                    + Add Option
+                                                                </button>
+                                                            </div>
+                                                        `;
+    }
+
+    function addOption(id) {
+        const container = document.getElementById(`options_container_${id}`);
+        const type = container.getAttribute("data-type");
+        const optionCount = container.children.length + 1;
+        
+        const newOptionHtml = `
+                                                            <div class="d-flex align-items-center mb-2 option-row">
+                                                                <input type="text" class="form-control me-2" value="Option ${optionCount}" />
+                                                                <button type="button" class="btn btn-light text-secondary px-3 py-1" onclick="removeOption(this)">
+                                                                    <i class="fas fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                        `;
+        container.insertAdjacentHTML('beforeend', newOptionHtml);
+    }
+
+    function removeOption(btn) {
+        btn.closest('.option-row').remove();
+    }
+
+    function getCountedPropertiesHtml(id, type) {
+        let label = "Number of text boxes:";
+        if (type === 'Number') label = "Number of boxes:";
+
+        return `
+                <div class="mt-3 border" style="border-radius: 8px; overflow: hidden; border-color: #d0e4ff !important;">
+                    <div class="p-2" style="background-color: #e6f0fa;">
+                        <label class="form-label text-muted fw-bold mb-0 ps-2" style="font-size: 0.85rem;">${label}</label>
+                    </div>
+                    <div class="p-3 bg-white border-bottom">
+                        <input type="number" min="1" max="25" value="1" class="form-control" style="max-width: 150px; border: 1px solid #e9ecef;" id="txt_count_${id}" oninput="updatePlaceholders(${id}, '${type}')" />
+                    </div>
+                    <div class="p-2" style="background-color: #e6f0fa;">
+                        <label class="form-label text-muted fw-bold mb-0 ps-2" style="font-size: 0.85rem;">${type === 'Number' ? 'Inputs:' : 'Options/Placeholders:'}</label>
+                    </div>
+                    <div class="p-3 bg-white" id="placeholders_${id}">
+                        ${getPlaceholderRowHtml(id, 1, type)}
+                    </div>
+                </div>
+            `;
+    }
+
+    function getPlaceholderRowHtml(parentId, index, type) {
+        let options = '<option value="Number">Number</option><option value="Text">Text</option>';
+        if (type === 'Number') {
+            options = '<option value="Number">Number</option>';
+        }
+
+        return `
+                                                <div class="d-flex align-items-center mb-2 placeholder-row">
+                                                    <span class="me-2 text-muted" style="min-width:20px; font-size:0.85rem;">${index}.</span>
+                                                    <input type="text" class="form-control me-2" placeholder="${type === 'Number' ? 'Field Name' : 'Placeholder/Option ' + index}" />
+                                                    <select class="form-select me-2" style="width: 110px; flex-shrink: 0;">
+                                                        ${options}
+                                                    </select>
+                                                    <button type="button" class="btn btn-light text-secondary px-3 py-1" onclick="removePlaceholder(this, ${parentId})">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            `;
+    }
+
+    function removePlaceholder(btn, parentId) {
+        btn.closest('.placeholder-row').remove();
+        const input = document.getElementById(`txt_count_${parentId}`);
+        if (input) {
+            let count = parseInt(input.value) || 0;
+            if (count > 0) input.value = count - 1;
+        }
+
+        // Re-index remaining placeholders
+        const container = document.getElementById(`placeholders_${parentId}`);
+        if (container) {
+            const rows = container.querySelectorAll('.placeholder-row');
+            rows.forEach((row, idx) => {
+                const span = row.querySelector('span.text-muted');
+                if (span) span.innerText = (idx + 1) + ".";
+            });
+        }
+    }
+
+    function updatePlaceholders(id, type) {
+        const count = parseInt(document.getElementById(`txt_count_${id}`).value) || 0;
+        const container = document.getElementById(`placeholders_${id}`);
+        const existing = container.querySelectorAll('.placeholder-row').length;
+
+        if (count > existing) {
+            for (let i = existing + 1; i <= count; i++) {
+                container.insertAdjacentHTML('beforeend', getPlaceholderRowHtml(id, i, type));
+            }
+        } else if (count < existing) {
+            const rows = container.querySelectorAll('.placeholder-row');
+            for (let i = rows.length - 1; i >= count; i--) {
+                rows[i].remove();
+            }
+        }
+    }
+
+    function getTakeImagePropertiesHtml() {
+        return `
+                                                    <div class="mb-2">
+                                                        <label class="form-label text-muted" style="font-size: 0.85rem;">Max images:</label>
+                                                        <input type="number" min="1" max="50" value="10" class="form-control" placeholder="e.g. 10" />
+                                                    </div>
+                                                `;
+    }
+
+    function getLoopQuestionHtml(parentId) {
+        fieldCount++;
+        const subFieldId = fieldCount;
+        return `
+                                                        <div class="alert alert-primary d-flex align-items-center mb-3 py-2 mt-2" role="alert" style="background-color: #cce5ff; border: none; border-radius: 4px; color: #004085; font-size: 0.85rem;">
+                                                            <i class="fas fa-info-circle me-2" style="font-size: 1rem;"></i>
+                                                            <div>
+                                                                <strong>Count-Based Loop:</strong> Users will enter a number in the field above (e.g., "5"), and these set of questions will automatically appear 5 times.
+                                                            </div>
+                                                        </div>
+
+                                                        <label class="form-label text-secondary fw-bold mb-2" style="font-size: 0.9rem;">Loop Questions (Sub-questions):</label>
+            
+                                                        <div class="p-3 mb-2 bg-light" style="border-radius: 8px; border: 1px dashed #ced4da;" id="loop_container_${parentId}">
+                
+                                                            <div class="d-flex justify-content-center mb-2 mt-1 loop-add-between-btn position-relative" style="z-index: 10;">
+                                                                <button type="button" class="btn border-0 rounded-circle shadow-sm bg-white text-primary" style="width: 24px; height: 24px; padding: 0; display: flex; align-items: center; justify-content: center; border: 1px solid #cce5ff !important;" onclick="insertSubFieldBefore(this, ${parentId})" title="Insert Sub-question">
+                                                                    <i class="fas fa-plus" style="font-size: 10px;"></i>
+                                                                </button>
+                                                            </div>
+                
+                                                            ${getSubFieldHtml(subFieldId, 1, parentId)}
+
+                                                        </div>
+                                                    `;
+    }
+
+    function getSubFieldHtml(id, index, parentId) {
+        return `
+                                                        <div class="card p-3 mb-3 shadow-sm sub-field-card" id="field_${id}" data-parent-id="${parentId}" style="border-radius: 8px;">
+                                                            <div class="d-flex align-items-center mb-3">
+                                                                <div class="me-2 text-primary fw-bold sub-field-badge" style="background-color: #e6f2ff; border-radius: 4px; padding: 6px 10px; font-size: 0.85rem;">#${index}</div>
+                                                                <div class="flex-grow-1 me-2">
+                                                                    <input type="text" class="form-control border-0 bg-transparent fw-bold" style="font-size: 0.95rem; box-shadow: none;" placeholder="Question Title" />
+                                                                </div>
+                                                                <div class="me-2" style="width: 180px;">
+                                                                    <select class="form-select border" onchange="handleFieldTypeChange(this, ${id})">
+                                                                        <option value="Short Text">Short Text</option>
+                                                                        <option value="Long Text">Long Text</option>
+                                                                        <option value="Number">Number</option>
+                                                                        <option selected value="Multiple Choice">Multiple Choice</option>
+                                                                        <option value="Checkboxes">Checkboxes</option>
+                                                                        <option value="Dropdown">Dropdown</option>
+                                                                        <option value="Date">Date</option>
+                                                                        <option value="Take Image">Take Image</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div>
+                                                                    <button type="button" class="btn btn-sm btn-light text-secondary" onclick="deleteSubField(this)" title="Delete Sub-question">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Dynamic Properties Container -->
+                                                            <div id="field_properties_${id}">
+                                                                ${getOptionsHtml(id)}
+                                                            </div>
+
+                                                            <!-- Footer (Required only) -->
+                                                            <div class="mt-3 pt-2">
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="checkbox" id="req_${id}">
+                                                                    <label class="form-check-label text-muted fw-bold" for="req_${id}" style="font-size: 0.85rem;">Required</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    `;
+    }
+
+    function insertSubFieldBefore(btn, parentId) {
+        fieldCount++;
+        const id = fieldCount;
+        const subFieldHtml = `
+                                                        <div class="d-flex justify-content-center mb-2 mt-1 loop-add-between-btn position-relative" style="z-index: 10;">
+                                                            <button type="button" class="btn border-0 rounded-circle shadow-sm bg-white text-primary" style="width: 24px; height: 24px; padding: 0; display: flex; align-items: center; justify-content: center; border: 1px solid #cce5ff !important;" onclick="insertSubFieldBefore(this, ${parentId})" title="Insert Sub-question">
+                                                                <i class="fas fa-plus" style="font-size: 10px;"></i>
+                                                            </button>
+                                                        </div>
+                                                        ${getSubFieldHtml(id, 999, parentId)}
+                                                    `;
+        btn.closest(".loop-add-between-btn").insertAdjacentHTML("beforebegin", subFieldHtml);
+        reindexSubFields(parentId);
+    }
+
+    function deleteSubField(btn) {
+        const card = btn.closest(".sub-field-card");
+        const parentId = card.getAttribute("data-parent-id");
+        if (card.previousElementSibling && card.previousElementSibling.classList.contains("loop-add-between-btn")) {
+            card.previousElementSibling.remove();
+        }
+        card.remove();
+        reindexSubFields(parentId);
+    }
+
+    function reindexSubFields(parentId) {
+        const container = document.getElementById(`loop_container_${parentId}`);
+        if (!container) return;
+        const badges = container.querySelectorAll(".sub-field-badge");
+        badges.forEach((badge, index) => {
+            badge.innerText = '#' + (index + 1);
+        });
+    }
+
+    function addField(sectionId) {
+        const container = document.getElementById(`fields_${sectionId}`);
+        container.insertAdjacentHTML("beforeend", getFieldHtml());
+    }
+
+    function deleteField(btn) {
+        btn.closest(".fieldRow").remove();
+    }
+
+    function deleteSection(btn) {
+        const card = btn.closest(".card");
+        if (card.previousElementSibling && card.previousElementSibling.classList.contains("add-between-btn")) {
+            card.previousElementSibling.remove();
+        }
+        card.remove();
+    }
+</script>

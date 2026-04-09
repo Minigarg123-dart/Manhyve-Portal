@@ -1,0 +1,215 @@
+﻿@model List<dynamic>
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <input type="hidden" value="@ViewBag.ProjectName" />
+            <h4 class="mb-0">Branding Audits</h4>
+            <p class="text-muted mb-0">Manage branding audit records</p>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-secondary">
+                <i class="fas fa-download me-2"></i> Download CSV
+            </button>
+
+            <a href="/Branding/AddBranding" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> Add Branding
+            </a>
+        </div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap mb-3">
+        <input type="text" class="form-select form-select-sm w-auto" placeholder="Search by store code">
+        <input type="text" class="form-select form-select-sm w-auto" placeholder="Search by store name">
+        <select class="form-select form-select-sm w-auto">
+            <option>All</option>
+            <option>Pending</option>
+            <option>Approved</option>
+        </select>
+            
+    </div>
+
+    <!-- Table Card -->
+    <div class="card p-3">
+
+        <table class="table align-middle">
+            <thead>
+                <tr class="text-muted small">
+                    <th>STORE CODE</th>
+                    <th>STORE NAME</th>
+                    <th>Sub-Vendor</th>
+                    <th>AUDIT STATUS</th>
+                    <th class="text-end">ACTIONS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.StoreCode</td>
+                        <td>@item.StoreName</td>
+                        <td>@item.SubVendor</td>
+                        <td>
+                            <span class="badge bg-success rounded-pill px-3">
+                                @item.Status
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+                           @*  <a href="#" class="text-decoration-none">
+                                <i class="fas fa-eye me-1"></i>Quick View
+                            </a> *@
+                            <button class="btn btn-sm btn-light viewBrandingBtn"
+                                    data-storecode="@item.StoreCode"
+                                    data-agent="@item.SubVendor"
+                                    data-store="@item.StoreName"
+                                    data-status="@item.Status">
+
+                                <i class="fas fa-eye me-1"></i> Quick View
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="brandingModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                <div class="modal-content p-3">
+
+                    <!-- Header -->
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title">
+                            <i class="fas fa-store text-primary me-2"></i>
+                            Branding Details
+                        </h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <p class="text-muted mb-1">Store Code</p>
+                                <h6 id="brandStoreCode"></h6>
+
+                                <p class="text-muted mt-3 mb-1">Store Name</p>
+                                <h6 id="brandStore"></h6>
+
+                                <p class="text-muted mt-3 mb-1">Sub Vendor</p>
+                                <h6 id="brandAgent"></h6>
+
+                                <p class="text-muted mt-3 mb-1">Status</p>
+                                <span id="brandStatus" class="badge bg-success px-3"></span>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <p class="text-muted mb-1">Audit photographs</p>
+
+                                <div class="row">
+
+                                    <div class="col-6">
+                                        <p class="text-primary small fw-bold">
+                                            PRE AUDIT PHOTO
+                                        </p>
+
+                                        <img src="/images/store1.jpg"
+                                             class="img-fluid rounded shadow">
+                                    </div>
+
+                                    <div class="col-6">
+                                        <p class="text-primary small fw-bold">
+                                            POST AUDIT PHOTO
+                                        </p>
+
+                                        <img src="/images/store2.jpg"
+                                             class="img-fluid rounded shadow">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0">
+
+                        <button class="btn btn-light" data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                        <a href="#" class="btn btn-primary">
+                            View Full Details
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+
+            <small class="text-muted">
+                Showing 1 to 8 of 8 branding audits
+            </small>
+
+            <div>
+                <button class="btn btn-light btn-sm me-2">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <span class="small text-muted">Page 1 of 8</span>
+                <button class="btn btn-light btn-sm ms-2">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+    document.querySelectorAll(".viewBrandingBtn").forEach(btn => {
+
+        btn.addEventListener("click", function() {
+
+            document.getElementById("brandStoreCode").innerText =
+                this.dataset.storecode;
+
+            document.getElementById("brandStore").innerText =
+                this.dataset.store;
+
+            document.getElementById("brandAgent").innerText =
+                this.dataset.agent;
+
+            document.getElementById("brandStatus").innerText =
+                this.dataset.status;
+
+            var modal = new bootstrap.Modal(
+                document.getElementById("brandingModal")
+            );
+
+            modal.show();
+
+        });
+
+    });
+
+</script>

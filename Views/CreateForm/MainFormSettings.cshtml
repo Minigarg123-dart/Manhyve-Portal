@@ -1,0 +1,225 @@
+﻿@model List<dynamic>
+
+@{
+    var mainForm = Model.FirstOrDefault(x => x.IsMainForm);
+}
+
+<div class="container-fluid">
+
+    <a asp-action="FormPage" asp-controller="CreateForm" asp-route-projectName="@ViewBag.ProjectName"
+        class="btn btn-light mb-3">
+        <i class="fas fa-arrow-left me-2"></i>Back to Forms
+    </a>
+
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1">📌 Main Form Setting</h3>
+                    <p class="text-muted mb-0">
+                        Select one form to be your primary form for submissions
+                    </p>
+                </div>
+
+                <button class="btn btn-outline-secondary">
+                    🎯 Set Brand Target
+                </button>
+            </div>
+
+
+            <!-- SELECTED MAIN FORM -->
+            <div id="mainFormContainer" class="mb-3">
+
+        @if (mainForm != null)
+        {
+            @* <div class="card p-4 mb-4 border-primary"> *@
+                    <div class="card form-card main-form-card mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <h5>@mainForm.FormName</h5>
+
+                                <span class="badge bg-primary">@mainForm.ProjectName</span>
+
+                                <p class="text-muted small mt-2">
+                            @mainForm.Description
+                                </p>
+
+                                <small class="text-muted">
+                                    Created: @mainForm.CreatedDate.ToString("dd/MM/yyyy")
+                                </small>
+                            </div>
+
+                            <button class="btn btn-outline-danger removeMainForm">
+                                Remove
+                            </button>
+
+                        </div>
+
+                    </div>
+        }
+
+            </div>
+
+
+            <h5 class="mb-3">Change Main Form</h5>
+
+            <!-- CARDS LIST -->
+            <div class="row g-3" id="formCards">
+
+        @foreach (var form in Model.Where(x => !x.IsMainForm))
+        {
+                    <div class="col-md-4">
+
+                @* <div class="card p-3 form-card"> *@
+                        <div class="card form-card">
+                            <h6>@form.FormName</h6>
+
+                            <p class="text-muted small">@form.Description</p>
+
+                            <span class="badge bg-primary mb-2">@form.ProjectName</span>
+
+                            <small class="text-muted d-block mb-3">
+                                Created: @form.CreatedDate.ToString("dd/MM/yyyy")
+                            </small>
+
+                            <button class="btn btn-outline-primary w-100 setMainForm">
+                                Set as Main Form
+                            </button>
+
+                        </div>
+
+                    </div>
+        }
+
+            </div>
+
+</div>
+
+<script>
+
+    document.addEventListener("click", function (e) {
+
+        const mainContainer = document.getElementById("mainFormContainer");
+        const cardContainer = document.getElementById("formCards");
+
+        // SET MAIN FORM
+        if (e.target.classList.contains("setMainForm")) {
+
+            let clickedCol = e.target.closest(".col-md-4");
+            let clickedCard = clickedCol.querySelector(".card");
+
+            let formName = clickedCard.querySelector("h6").innerText;
+            let desc = clickedCard.querySelector("p").innerText;
+            let project = clickedCard.querySelector(".badge").innerText;
+            let created = clickedCard.querySelector("small").innerText;
+
+            let currentMain = mainContainer.querySelector(".card");
+
+            // Move old main form back to cards
+            if (currentMain) {
+
+                let name = currentMain.querySelector("h5").innerText;
+                let projectName = currentMain.querySelector(".badge").innerText;
+                let description = currentMain.querySelector("p").innerText;
+                let createdDate = currentMain.querySelector("small").innerText;
+
+                let col = document.createElement("div");
+                col.className = "col-md-4";
+
+                col.innerHTML = `
+                    <div class="card p-3 form-card">
+                        <h6>${name}</h6>
+                        <p class="text-muted small">${description}</p>
+                        <span class="badge bg-primary mb-2">${projectName}</span>
+                        <small class="text-muted d-block mb-3">${createdDate}</small>
+                        <button class="btn btn-outline-primary w-100 setMainForm">
+                            Set as Main Form
+                        </button>
+                    </div>
+                `;
+
+                cardContainer.prepend(col);
+            }
+
+            clickedCol.remove();
+
+            // Create MAIN FORM (same UI as starting)
+            mainContainer.innerHTML = `
+                <div class="card p-4 mb-4 border-primary">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h5>${formName}</h5>
+                            <span class="badge bg-primary">${project}</span>
+
+                            <p class="text-muted small mt-2">
+                                ${desc}
+                            </p>
+
+                            <small class="text-muted">
+                                ${created}
+                            </small>
+                        </div>
+
+                        <button class="btn btn-outline-danger removeMainForm">
+                            Remove
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+        }
+
+
+
+        // REMOVE MAIN FORM
+        if (e.target.classList.contains("removeMainForm")) {
+
+            let mainCard = mainContainer.querySelector(".card");
+
+            let name = mainCard.querySelector("h5").innerText;
+            let project = mainCard.querySelector(".badge").innerText;
+            let desc = mainCard.querySelector("p").innerText;
+            let created = mainCard.querySelector("small").innerText;
+
+            let col = document.createElement("div");
+            col.className = "col-md-4";
+
+            col.innerHTML = `
+                <div class="card p-3 form-card">
+
+                    <h6>${name}</h6>
+
+                    <p class="text-muted small">${desc}</p>
+
+                    <span class="badge bg-primary mb-2">${project}</span>
+
+                    <small class="text-muted d-block mb-3">
+                        ${created}
+                    </small>
+
+                    <button class="btn btn-outline-primary w-100 setMainForm">
+                        Set as Main Form
+                    </button>
+
+                </div>
+            `;
+
+            // move removed card to bottom
+            cardContainer.appendChild(col);
+
+            mainContainer.innerHTML = "";
+
+            // auto select first card
+            let firstBtn = cardContainer.querySelector(".setMainForm");
+
+            if (firstBtn) {
+                firstBtn.click();
+            }
+        }
+
+    });
+
+</script>

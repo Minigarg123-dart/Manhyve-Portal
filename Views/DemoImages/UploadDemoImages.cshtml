@@ -1,0 +1,112 @@
+﻿<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="mb-3">
+        <h4 class="mb-0">Bulk Upload Store Demo Images</h4>
+        <p class="text-muted">
+            Upload a ZIP file containing images named as: storecode_questionnumber.ext
+        </p>
+    </div>
+
+    <div class="row g-3">
+
+        <!-- LEFT SIDE -->
+        <div class="col-md-7">
+            <div class="card p-4 text-center">
+
+                <!-- Hidden File Input -->
+                <input type="file" id="zipFile" accept=".zip" style="display:none;" />
+
+                <!-- Upload Box -->
+                <div id="uploadBox"
+                     style="border:2px dashed #ddd; border-radius:10px; padding:40px; cursor:pointer;">
+
+                    <i class="fas fa-file-archive fa-3x mb-3 text-muted"></i>
+
+                    <h6 class="mb-1">SELECT ZIP FILE *</h6>
+                    <p class="text-muted small">Click to browse or drag and drop</p>
+
+                    <!-- Selected file name -->
+                    <p id="fileName" class="mt-2 text-primary small"></p>
+                </div>
+
+                <!-- Upload Button -->
+                <button class="btn btn-primary mt-4 w-100">
+                    <i class="fas fa-upload me-2"></i> Upload ZIP File
+                </button>
+
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="col-md-5">
+            <div class="card p-4">
+
+                <h6 class="mb-3">
+                    <i class="fas fa-info-circle me-2"></i> Instructions
+                </h6>
+
+                <ol class="text-muted small ps-3">
+                    <li>Create a ZIP file of images</li>
+                    <li>Question numbers start from 1 and are sequential across all sections</li>
+                    <li>Only image fields will have demo images assigned</li>
+                    <li>Images can be in subfolders within the ZIP file</li>
+                    <li>The form is automatically detected from each store's main form</li>
+                    <li>You can upload images for multiple stores (with different forms) in one ZIP file</li>
+                    <li>Memory-efficient processing: Images are processed in batches of 3</li>
+                    <li>File size limit: individual images larger than 10MB will be skipped</li>
+                </ol>
+
+                <!-- Example Box -->
+                <div class="mt-3 p-2" style="background:#f5f5f5; border-radius:6px;">
+                    <small class="text-muted">
+                        Example: D250039_1.jpg → storecode followed by "_" and question number
+                    </small>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const uploadBox = document.getElementById("uploadBox");
+    const fileInput = document.getElementById("zipFile");
+    const fileName = document.getElementById("fileName");
+
+    // Click → open file picker
+    uploadBox.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    // Show selected file name
+    fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+            fileName.innerText = fileInput.files[0].name;
+        }
+    });
+
+    // Drag over
+    uploadBox.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadBox.style.background = "#f8f9fa";
+    });
+
+    // Drag leave
+    uploadBox.addEventListener("dragleave", () => {
+        uploadBox.style.background = "transparent";
+    });
+
+    // Drop file
+    uploadBox.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadBox.style.background = "transparent";
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            fileName.innerText = files[0].name;
+        }
+    });
+</script>

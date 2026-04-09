@@ -18,6 +18,11 @@ namespace Manhyve_Portal.Controllers
             return View();
         }
 
+        public IActionResult UserManagement()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

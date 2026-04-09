@@ -1,0 +1,184 @@
+﻿@model IEnumerable<dynamic>
+@{
+    int index = 0;
+}
+<div class="container-fluid">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h4 class="mb-0">Store Audits Management</h4>
+            <input type="hidden" value="@ViewBag.ProjectName" />
+            <p class="text-muted">View and manage audits uploaded by agents for each store</p>
+        </div>
+
+        <button class="btn btn-outline-secondary">
+            <i class="fas fa-download me-2"></i> Download CSV
+        </button>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="mb-4 position-relative">
+
+        <i class="fas fa-search position-absolute"
+           style="left:12px; top:50%; transform:translateY(-50%); color:#999;"></i>
+
+        <input type="text"
+               class="form-control ps-5"
+               placeholder="Search stores by name, address, or store code..." />
+
+    </div>
+    <div class="row g-3 align-items-stretch">
+
+        <!-- LEFT SIDE STORE LIST -->
+        <div class="col-md-8 d-flex">
+            <div class="card p-4 h-100 w-100">
+            <div class="row g-3">
+                @if (Model != null)
+                {
+                    @foreach (var store in Model)
+                    {
+                        var isSelected = index == 0 ? "border-primary" : "";
+
+                        <div class="col-md-6">
+@*                             <div class="card p-3 store-card @isSelected"
+                                 style="cursor:pointer"
+                                 data-name="@store.Name"
+                                 data-address="@store.Address"
+                                 data-code="@store.Code"
+                                 data-total="@store.Total"
+                                 data-pending="@store.Pending"
+                                 data-approved="@store.Approved"> *@
+                                <div class="card p-3 store-card @isSelected"
+                                     style="cursor:pointer"
+                                     data-name="@store.Name"
+                                     data-address="@store.Address"
+                                     data-code="@store.Code"
+                                     data-total="@store.Total"
+                                     data-pending="@store.Pending"
+                                     data-approved="@store.Approved">
+
+
+                                <div class="d-flex justify-content-between align-items-start">
+
+                                    <div>
+                                        <h6 class="mb-1">@store.Name</h6>
+                                        <small class="text-muted">@store.Address</small>
+                                    </div>
+
+                                    <span class="badge bg-success">Active</span>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        index++;
+                    }
+                }
+            </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE DETAILS -->
+        <div class="col-md-4 d-flex">
+            <div class="card p-4">
+
+            <div class="d-flex justify-end-between align-items-center mb-3">
+                <h6 id="storeName">Select a Store</h6>
+
+                <button class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-download me-1"></i> Download CSV
+                </button>
+            </div>
+
+            <p id="storeAddress" class="text-muted small"></p>
+
+            <p>
+                <strong>Store Code:</strong>
+                <span id="storeCode"></span>
+            </p>
+
+            <div class="row text-center">
+
+                <div class="col-4">
+                    <div class="border rounded p-2">
+                        <small>Total Photos</small>
+                        <h5 id="totalPhotos">0</h5>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="border rounded p-2">
+                        <small>Pending</small>
+                        <h5 id="pendingPhotos">0</h5>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="border rounded p-2">
+                        <small>Approved</small>
+                        <h5 id="approvedPhotos">0</h5>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    window.onload = function() {
+
+        const firstCard = document.querySelector(".store-card");
+
+        if (firstCard) {
+
+            document.getElementById("storeName").innerText = firstCard.dataset.name;
+            document.getElementById("storeAddress").innerText = firstCard.dataset.address;
+            document.getElementById("storeCode").innerText = firstCard.dataset.code;
+
+            document.getElementById("totalPhotos").innerText = firstCard.dataset.total;
+            document.getElementById("pendingPhotos").innerText = firstCard.dataset.pending;
+            document.getElementById("approvedPhotos").innerText = firstCard.dataset.approved;
+
+        }
+
+    };
+
+    document.querySelectorAll(".store-card").forEach(card => {
+
+        card.addEventListener("click", function() {
+
+            document.getElementById("storeName").innerText = this.dataset.name;
+            document.getElementById("storeAddress").innerText = this.dataset.address;
+            document.getElementById("storeCode").innerText = this.dataset.code;
+
+            document.getElementById("totalPhotos").innerText = this.dataset.total;
+            document.getElementById("pendingPhotos").innerText = this.dataset.pending;
+            document.getElementById("approvedPhotos").innerText = this.dataset.approved;
+
+            document.querySelectorAll(".store-card").forEach(c => c.classList.remove("border-primary"));
+
+            this.classList.add("border-primary");
+
+        });
+
+    });
+
+    document.querySelectorAll(".store-card").forEach(card => {
+
+        card.addEventListener("click", function() {
+
+            var storeCode = this.dataset.code;
+
+            window.location.href = "/Stores/StoreDetails?code=" + storeCode;
+
+        });
+
+    });
+</script>

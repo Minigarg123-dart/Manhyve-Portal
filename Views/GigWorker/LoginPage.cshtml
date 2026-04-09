@@ -1,0 +1,208 @@
+﻿@model IEnumerable<dynamic>
+<style>
+    .create-login-modal {
+        border-radius: 18px;
+        overflow: hidden;
+        border-top: 4px solid #dc3545;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .create-header {
+        background: #0f1a2e;
+        padding: 20px 24px;
+    }
+
+    .input-custom {
+        border-radius: 12px;
+        padding: 14px;
+        border: 2px solid #e4e7f2;
+    }
+
+        .input-custom:focus {
+            border-color: #5b7cfa;
+            box-shadow: none;
+    }</style>
+<div class="container-fluid">
+
+    <!-- PAGE HEADER -->
+    <div class="mb-4">
+        <h3 class="fw-bold">Gig Worker Login Management</h3>
+        <p class="text-muted">Total registered: @Model.Count() workers</p>
+    </div>
+
+
+    <!-- FILTER / SEARCH BAR -->
+    <div class="d-flex gap-2 flex-wrap mb-3">
+
+        @* <div class="d-flex align-items-center gap-3 flex-wrap"> *@
+
+            <!-- Status Dropdown -->
+            <select class="form-select w-auto">
+                <option>All Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+            </select>
+
+
+            <!-- Search Box -->
+            <input type="text"
+                   class="form-control"
+                   style="max-width:350px"
+                   placeholder="Type and click search..." />
+
+
+            <!-- Search Button -->
+            <button class="btn btn-primary">
+                <i class="fas fa-search me-1"></i> Search
+            </button>
+
+
+            <!-- Right Side Button -->
+            <div class="ms-auto">
+                @* <button class="btn btn-outline-primary">
+                    <i class="fas fa-plus me-1"></i> Add New Gig Worker
+                </button> *@
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createLoginModal">
+                <i class="fas fa-plus me-1"></i> Add New Gig Worker
+            </button>
+            </div>
+
+        </div>
+
+    @* </div> *@
+<div class="card p-3">
+
+    <div class="table-responsive">
+
+        <table class="table align-middle">
+
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>FULL NAME</th>
+                    <th>USERNAME</th>
+                    <th class="text-end">STATUS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var worker in Model)
+                {
+                    <tr>
+
+                        <td>#@worker.Id</td>
+
+                        <td>@worker.FullName</td>
+
+                        <td>@worker.UserName</td>
+
+                        <td class="text-end">
+                            <span class="badge bg-success">
+                                @worker.Status
+                            </span>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+            <div class="modal fade" id="createLoginModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+
+                    <div class="modal-content create-login-modal">
+
+                        <!-- HEADER -->
+                        <div class="modal-header create-header">
+
+                            <h5 class="modal-title text-white">Create Login</h5>
+
+                            <button type="button"
+                                    class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal">
+                            </button>
+
+                        </div>
+
+                        <!-- BODY -->
+                        <div class="modal-body p-4">
+
+                            <!-- USERNAME -->
+                            <div class="mb-4">
+
+                                <label class="form-label fw-bold text-primary">
+                                    USERNAME
+                                </label>
+
+                                <input type="text"
+                                       class="form-control input-custom"
+                                       placeholder="Enter unique username">
+
+                            </div>
+
+                            <!-- PASSWORD -->
+                            <div class="mb-4">
+
+                                <label class="form-label fw-bold">
+                                    PASSWORD
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input type="password"
+                                           id="passwordField"
+                                           class="form-control input-custom"
+                                           placeholder="Set account password">
+
+                                    <button class="btn btn-light"
+                                            type="button"
+                                            onclick="togglePassword()">
+                                        SHOW
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- FOOTER -->
+                        <div class="modal-footer border-0 px-4 pb-4">
+
+                            <button class="btn btn-light px-4"
+                                    data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+
+                            <button class="btn btn-dark px-4">
+                                Create Account
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+</div>
+</div>
+<script>
+
+    function togglePassword() {
+         var field = document.getElementById("passwordField");
+
+            if (field.type === "password") {
+                field.type = "text";
+            }
+            else {
+                field.type = "password";
+            }
+
+    }
+
+ </script>

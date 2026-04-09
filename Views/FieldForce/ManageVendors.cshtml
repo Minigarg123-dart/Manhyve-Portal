@@ -1,0 +1,238 @@
+﻿@model List<dynamic>
+<style>
+    .vendor-modal {
+        border-radius: 16px;
+        border-top: 4px solid #dc3545;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    .vendor-icon {
+        width: 45px;
+        height: 45px;
+        background: #e9f0ff;
+        color: #2d6cdf;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-size: 20px;
+    }
+</style>
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <input type="hidden" value="@ViewBag.ProjectName" />
+            <h4 class="mb-0">Vendor Admins</h4>
+            <p class="text-muted mb-0">Manage vendor admin accounts</p>
+        </div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap mb-3">
+        <input type="text" class="form-select form-select-sm w-auto" placeholder="Search by username">
+        <input type="text" class="form-select form-select-sm w-auto" placeholder="Search by email">
+        <select class="form-select form-select-sm w-auto">
+            <option>All</option>
+            <option>Active</option>
+        </select>
+        <button class="btn btn-outline-secondary me-2">Clear Filters</button>
+    </div>
+
+    <!-- Table Card -->
+    <div class="card p-3">
+
+        <table class="table align-middle">
+            <thead>
+                <tr class="text-muted small">
+                    <th>USERNAME</th>
+                    <th>EMAIL</th>
+                    <th>PHONE</th>
+                    <th>STATUS</th>
+                    <th>CREATED AT</th>
+                    <th class="text-end">ACTIONS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Status</td>
+                        <td>@item.CreatedAt</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-light viewVendorBtn"
+                                    data-username="@item.UserName"
+                                    data-email="@item.Email"
+                                    data-phone="@item.Phone"
+                                    data-status="@item.Status"
+                                    data-created="@item.CreatedAt">
+
+                                <i class="fas fa-eye me-1"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="vendorDetailsModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                <div class="modal-content vendor-modal p-3">
+
+                    <!-- Header -->
+                    <div class="modal-header border-0">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="vendor-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+
+                            <div>
+                                <h5 class="mb-0">Vendor Details</h5>
+                                <small class="text-muted">
+                                    Complete vendor information and context
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- LEFT SIDE -->
+                            <div class="col-md-6">
+
+                                <p class="text-muted mb-2">Vendor Summary</p>
+
+                                <h6 id="vendorName"></h6>
+
+                                <div class="row mt-3">
+
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Email</p>
+                                        <span id="vendorEmail"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Phone</p>
+                                        <span id="vendorPhone"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mt-3">
+
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Status</p>
+                                        <span id="vendorStatus"
+                                              class="badge bg-success rounded-pill px-3"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Created At</p>
+                                        <span id="vendorCreated"></span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- RIGHT SIDE -->
+                            <div class="col-md-6">
+
+                                <p class="text-muted mb-2">
+                                    Additional Information
+                                </p>
+
+                                <p class="text-muted">
+                                    Vendor admin account information and metadata are displayed here.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0">
+
+                        <button class="btn btn-light rounded-pill px-4"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+
+            <small class="text-muted">
+                Showing 2 of 2 vendor admins
+            </small>
+
+            <div>
+                <button class="btn btn-light btn-sm me-2">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <span class="small text-muted">Page 1 of 8</span>
+                <button class="btn btn-light btn-sm ms-2">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    document.querySelectorAll(".viewVendorBtn").forEach(btn => {
+
+        btn.addEventListener("click", function() {
+
+            document.getElementById("vendorName").innerText =
+                this.dataset.username;
+
+            document.getElementById("vendorEmail").innerText =
+                this.dataset.email;
+
+            document.getElementById("vendorPhone").innerText =
+                this.dataset.phone;
+
+            document.getElementById("vendorStatus").innerText =
+                this.dataset.status;
+
+            document.getElementById("vendorCreated").innerText =
+                this.dataset.created;
+
+            var modal = new bootstrap.Modal(
+                document.getElementById("vendorDetailsModal")
+            );
+
+            modal.show();
+
+        });
+
+    });
+
+</script>

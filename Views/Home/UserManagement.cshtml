@@ -1,0 +1,614 @@
+﻿<div class="container-fluid">
+
+    <!-- HEADER -->
+    <div class="mb-3">
+        <h5 class="mb-0">User Management</h5>
+        <p class="mb-0 text-muted">Define user roles and their permissions</p>
+    </div>
+
+    <!-- ROLE SECTION -->
+    <div class="card p-3 mb-3">
+
+        <div class="d-flex mb-3">
+            <input type="text" class="form-control me-2" placeholder="Enter role name..." style="max-width:300px;">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                <i class="fas fa-plus me-2"></i>Add Role
+            </button>
+        </div>
+
+        <table class="table" id="rolesTable">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>View</th>
+                    <th>Create</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @* <tr data-role="Admin" data-pages="{}">
+                    <td>Admin</td>
+                    <td><input type="checkbox" class="role-perm-view" checked /></td>
+                    <td><input type="checkbox" class="role-perm-create" checked /></td>
+                    <td><input type="checkbox" class="role-perm-edit" checked /></td>
+                    <td><input type="checkbox" class="role-perm-delete" checked /></td>
+                </tr> *@
+                <tr data-role="Admin"
+                    data-view-pages="ALL"
+                    data-create-pages="ALL"
+                    data-edit-pages="ALL"
+                    data-delete-pages="ALL">
+
+                    <td>Admin</td>
+                    <td><input type="checkbox" class="role-perm-view" checked></td>
+                    <td><input type="checkbox" class="role-perm-create" checked></td>
+                    <td><input type="checkbox" class="role-perm-edit" checked></td>
+                    <td><input type="checkbox" class="role-perm-delete" checked></td>
+                </tr>
+
+               @*  <tr data-role="Client" data-pages="{}">
+                    <td>Client</td>
+                    <td><input type="checkbox" class="role-perm-view" checked /></td>
+                    <td><input type="checkbox" class="role-perm-create" /></td>
+                    <td><input type="checkbox" class="role-perm-edit" /></td>
+                    <td><input type="checkbox" class="role-perm-delete" /></td>
+                </tr> *@
+                <tr data-role="Client"
+                    data-view-pages="Home/Index.cshtml|Audit/Details.cshtml"
+                    data-create-pages=""
+                    data-edit-pages=""
+                    data-delete-pages="">
+
+                    <td>Client</td>
+                    <td><input type="checkbox" class="role-perm-view" checked></td>
+                    <td><input type="checkbox" class="role-perm-create"></td>
+                    <td><input type="checkbox" class="role-perm-edit"></td>
+                    <td><input type="checkbox" class="role-perm-delete"></td>
+                </tr>
+                @* <tr data-role="Viewer" data-pages="{}">
+                    <td>Viewer</td>
+                    <td><input type="checkbox" class="role-perm-view" checked /></td>
+                    <td><input type="checkbox" class="role-perm-create" /></td>
+                    <td><input type="checkbox" class="role-perm-edit" /></td>
+                    <td><input type="checkbox" class="role-perm-delete" /></td>
+                </tr> *@
+                <tr data-role="Viewer"
+                    data-view-pages="Home/Index.cshtml|Audit/Details.cshtml"
+                    data-create-pages=""
+                    data-edit-pages=""
+                    data-delete-pages="">
+
+                    <td>Viewer</td>
+                    <td><input type="checkbox" class="role-perm-view" checked></td>
+                    <td><input type="checkbox" class="role-perm-create"></td>
+                    <td><input type="checkbox" class="role-perm-edit"></td>
+                    <td><input type="checkbox" class="role-perm-delete"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="row mb-3">
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <p class="mb-1 text-muted">Total users</p>
+                <h5>5</h5>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <p class="mb-1 text-muted">Active users</p>
+                <h5>5</h5>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <p class="mb-1 text-muted">Organization admins</p>
+                <h5>3</h5>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- USER TABLE -->
+    <div class="card p-3">
+
+        <!-- FILTERS -->
+        <div class="d-flex mb-3">
+            <input type="text" class="form-control me-2" placeholder="Search by name or email" style="max-width:300px;">
+
+            <select class="form-control me-2" style="max-width:150px;">
+                <option>All Roles</option>
+                <option>Admin</option>
+            </select>
+
+            <select class="form-control" style="max-width:150px;">
+                <option>All Status</option>
+                <option>Ative</option>
+            </select>
+        </div>
+
+        <!-- TABLE -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Status</th>
+                    <th>Last Seen</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Tejas<input type="hidden" class="userRole" value="Viewer" /></td>
+                    
+                    <td><span class="badge bg-success">ACTIVE</span></td>
+                    <td>Feb 17, 2026</td>
+                    <td class="text-end">
+                        @* <a href="#">Change Permission</a> | *@
+                        <a href="#" class="changePermission">Change Permission</a> |
+                        <a href="#" class="text-danger">Suspend access</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Randhir <input type="hidden" class="userRole" value="Admin" /></td>
+                    <td><span class="badge bg-success">ACTIVE</span></td>
+                    <td>Jan 22, 2026</td>
+                    <td class="text-end">
+                        <a href="#" class="changePermission">Change Permission</a> |
+                        <a href="#" class="text-danger">Suspend access</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Saud Ahmad
+                        <input type="hidden" class="userRole" value="Admin" />
+                    </td>
+                    <td><span class="badge bg-success">ACTIVE</span></td>
+                    <td>Jan 29, 2026</td>
+                    <td class="text-end">
+                        <a href="#" class="changePermission">Change Permission</a>  |
+                        <a href="#" class="text-danger">Suspend access</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Tanveer Mamun
+                        <input type="hidden" class="userRole" value="Viewer" />
+                    </td>
+                    <td><span class="badge bg-success">ACTIVE</span></td>
+                    <td>Mar 13, 2026</td>
+                    <td class="text-end">
+                        <a href="#" class="changePermission">Change Permission</a>  |
+                        <a href="#" class="text-danger">Suspend access</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Deepak Kumar<input type="hidden" class="userRole" value="Client" /></td>
+                    <td><span class="badge bg-success">ACTIVE</span></td>
+                    <td>Feb 06, 2026</td>
+                    <td class="text-end">
+                        <a href="#" class="changePermission">Change Permission</a>  |
+                        <a href="#" class="text-danger">Suspend access</a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<!-- ADD ROLE MODAL -->
+<div class="modal fade" id="addRoleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Body -->
+<div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label">Role Name</label>
+                    <input type="text" id="roleName" class="form-control" placeholder="Enter role name..." />
+                </div>
+
+                <!-- Permissions -->
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="checkbox" id="permView" class="me-2" /> View
+                        </div>
+                        <div class="col-6">
+                            <input type="checkbox" id="permCreate" class="me-2" /> Create
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <input type="checkbox" id="permEdit" class="me-2" /> Edit
+                        </div>
+                        <div class="col-6">
+                            <input type="checkbox" id="permDelete" class="me-2" /> Delete
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Page Access containers for each permission -->
+                @using System.IO
+                @{ 
+                    var viewsRoot = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Views");
+                    var files = new List<string>();
+                    if (System.IO.Directory.Exists(viewsRoot)) {
+                        files = System.IO.Directory.GetFiles(viewsRoot, "*.cshtml", System.IO.SearchOption.AllDirectories)
+                                .Where(f => !System.IO.Path.GetFileName(f).StartsWith("_") )
+                                .Select(f => f.Substring(viewsRoot.Length + 1).Replace("\\", "/")).OrderBy(s=>s).ToList();
+                    }
+
+                    // Exclude internal pages and map some paths to user-friendly labels
+                    var exclude = new HashSet<string>(new[] { "Account/Index.cshtml", "Home/Privacy.cshtml", "Shared/Error.cshtml" }, System.StringComparer.OrdinalIgnoreCase);
+                    var labelMap = new Dictionary<string,string>(System.StringComparer.OrdinalIgnoreCase) {
+                        { "Home/Index.cshtml", "Main Dashboard" },
+                        { "Home/UserManagement.cshtml", "Main Usermangement" },
+                        { "UserManagement/Index.cshtml", "ProjectsUsermanagement" }
+                    };
+
+                    var displayFiles = new List<System.Tuple<string,string>>();
+                    foreach(var p in files) {
+                        if (exclude.Contains(p)) continue;
+                        var label = labelMap.ContainsKey(p) ? labelMap[p] : System.IO.Path.GetFileNameWithoutExtension(p);
+                        displayFiles.Add(System.Tuple.Create(p, label));
+                    }
+                }
+
+                <div id="pageAccessViewContainer" class="card p-3 mt-3" style="display:none;">
+                    <p class="mb-2 fw-semibold">View - Select pages this role may view</p>
+                    <div class="row">
+                        @foreach(var t in displayFiles) {
+                            <div class="col-md-6 mb-2">
+                                <label class="d-block"><input type="checkbox" name="pageAccessView" value="@t.Item1" class="me-2" /> @t.Item2</label>
+                            </div>
+                        }
+                        @if(!displayFiles.Any()) {
+                            <div class="col-12 text-muted">No view pages found to list.</div>
+                        }
+                    </div>
+                </div>
+
+                <div id="pageAccessCreateContainer" class="card p-3 mt-3" style="display:none;">
+                    <p class="mb-2 fw-semibold">Create - Select pages this role may create on</p>
+                    <div class="row">
+                        @foreach(var t in displayFiles) {
+                            <div class="col-md-6 mb-2">
+                                <label class="d-block"><input type="checkbox" name="pageAccessCreate" value="@t.Item1" class="me-2" /> @t.Item2</label>
+                            </div>
+                        }
+                        @if(!displayFiles.Any()) {
+                            <div class="col-12 text-muted">No pages found to list.</div>
+                        }
+                    </div>
+                </div>
+
+                <div id="pageAccessEditContainer" class="card p-3 mt-3" style="display:none;">
+                    <p class="mb-2 fw-semibold">Edit - Select pages this role may edit</p>
+                    <div class="row">
+                        @foreach(var t in displayFiles) {
+                            <div class="col-md-6 mb-2">
+                                <label class="d-block"><input type="checkbox" name="pageAccessEdit" value="@t.Item1" class="me-2" /> @t.Item2</label>
+                            </div>
+                        }
+                        @if(!displayFiles.Any()) {
+                            <div class="col-12 text-muted">No pages found to list.</div>
+                        }
+                    </div>
+                </div>
+
+                <div id="pageAccessDeleteContainer" class="card p-3 mt-3" style="display:none;">
+                    <p class="mb-2 fw-semibold">Delete - Select pages this role may delete on</p>
+                    <div class="row">
+                        @foreach(var t in displayFiles) {
+                            <div class="col-md-6 mb-2">
+                                <label class="d-block"><input type="checkbox" name="pageAccessDelete" value="@t.Item1" class="me-2" /> @t.Item2</label>
+                            </div>
+                        }
+                        @if(!displayFiles.Any()) {
+                            <div class="col-12 text-muted">No pages found to list.</div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" onclick="saveRole()">Save Role</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    function saveRole() {
+        const name = document.getElementById("roleName").value;
+
+        if (!name) {
+            alert("Please enter role name");
+            return;
+        }
+
+        const view = document.getElementById("permView").checked ? "checked" : "";
+        const create = document.getElementById("permCreate").checked ? "checked" : "";
+        const edit = document.getElementById("permEdit").checked ? "checked" : "";
+        const del = document.getElementById("permDelete").checked ? "checked" : "";
+
+        const row = `
+                <tr>
+                    <td>${name}</td>
+                    <td><input type="checkbox" ${view}></td>
+                    <td><input type="checkbox" ${create}></td>
+                    <td><input type="checkbox" ${edit}></td>
+                    <td><input type="checkbox" ${del}></td>
+                </tr>`;
+
+        // Collect selected pages for this role (only if View permission is enabled)
+        let pagesData = '';
+        if (document.getElementById("permView").checked) {
+            const selectedPages = Array.from(document.querySelectorAll('#addRoleModal input[name="pageAccess"]:checked')).map(cb => cb.value);
+            pagesData = selectedPages.join('|');
+        }
+
+        // Insert row with data-pages attribute so we can reference which pages were allowed
+        const rowWithData = `<tr data-pages="${pagesData}">
+                    <td>${name}</td>
+                    <td><input type="checkbox" ${view}></td>
+                    <td><input type="checkbox" ${create}></td>
+                    <td><input type="checkbox" ${edit}></td>
+                    <td><input type="checkbox" ${del}></td>
+                </tr>`;
+
+        document.querySelector("table tbody").insertAdjacentHTML("beforeend", rowWithData);
+
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addRoleModal'));
+        modal.hide();
+
+        // Reset form
+        document.getElementById("roleName").value = "";
+        document.querySelectorAll('#addRoleModal input[type="checkbox"]').forEach(cb => cb.checked = false);
+        // hide page access containers after reset
+        ['pageAccessViewContainer','pageAccessCreateContainer','pageAccessEditContainer','pageAccessDeleteContainer'].forEach(id => {
+            var el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+    }
+
+    // Toggle page access visibility when View checkbox changes
+    document.addEventListener('DOMContentLoaded', function(){
+        var permView = document.getElementById('permView');
+        var pageAccessContainer = document.getElementById('pageAccessContainer');
+        if (permView) {
+            permView.addEventListener('change', function(){
+                var el = document.getElementById('pageAccessViewContainer');
+                if (this.checked) el.style.display = 'block'; else { el.style.display='none'; el.querySelectorAll('input[name="pageAccessView"]').forEach(cb=>cb.checked=false); }
+            });
+        }
+        var permCreate = document.getElementById('permCreate');
+        if (permCreate) {
+            permCreate.addEventListener('change', function(){
+                var el = document.getElementById('pageAccessCreateContainer');
+                if (this.checked) el.style.display = 'block'; else { el.style.display='none'; el.querySelectorAll('input[name="pageAccessCreate"]').forEach(cb=>cb.checked=false); }
+            });
+        }
+        var permEdit = document.getElementById('permEdit');
+        if (permEdit) {
+            permEdit.addEventListener('change', function(){
+                var el = document.getElementById('pageAccessEditContainer');
+                if (this.checked) el.style.display = 'block'; else { el.style.display='none'; el.querySelectorAll('input[name="pageAccessEdit"]').forEach(cb=>cb.checked=false); }
+            });
+        }
+        var permDelete = document.getElementById('permDelete');
+        if (permDelete) {
+            permDelete.addEventListener('change', function(){
+                var el = document.getElementById('pageAccessDeleteContainer');
+                if (this.checked) el.style.display = 'block'; else { el.style.display='none'; el.querySelectorAll('input[name="pageAccessDelete"]').forEach(cb=>cb.checked=false); }
+            });
+        }
+    });
+
+    // document.addEventListener("click", function(e) {
+
+    //     if (e.target.classList.contains("changePermission")) {
+
+    //         e.preventDefault();
+
+    //         // Get the row
+    //         var row = e.target.closest("tr");
+
+    //         // Get role from hidden input
+    //         var role = row.querySelector(".userRole").value;
+
+    //         // Find role in roles table
+    //         var roleRow = document.querySelector('#rolesTable tr[data-role="' + role + '"]');
+
+    //         if (!roleRow) {
+    //             alert("Role not found");
+    //             return;
+    //         }
+
+    //         // Set role name
+    //         document.getElementById("roleName").value = role;
+
+    //         // Set permissions
+    //         document.getElementById("permView").checked =
+    //             roleRow.querySelector(".role-perm-view").checked;
+
+    //         document.getElementById("permCreate").checked =
+    //             roleRow.querySelector(".role-perm-create").checked;
+
+    //         document.getElementById("permEdit").checked =
+    //             roleRow.querySelector(".role-perm-edit").checked;
+
+    //         document.getElementById("permDelete").checked =
+    //             roleRow.querySelector(".role-perm-delete").checked;
+
+    //         // Open modal
+    //         var modal = new bootstrap.Modal(document.getElementById("addRoleModal"));
+    //         modal.show();
+    //     }
+
+    // });
+
+    document.addEventListener("click", function(e) {
+
+        if (e.target.classList.contains("changePermission")) {
+
+            e.preventDefault();
+
+            // Get user row
+            var row = e.target.closest("tr");
+
+            // Get user role
+            var roleInput = row.querySelector(".userRole");
+
+            if (!roleInput) {
+                alert("User role not defined");
+                return;
+            }
+
+            var role = roleInput.value;
+
+            // Find role in roles table
+            var roleRow = document.querySelector('#rolesTable tr[data-role="' + role + '"]');
+
+            if (!roleRow) {
+                alert("Role not found");
+                return;
+            }
+
+            // Set role name
+            document.getElementById("roleName").value = role;
+
+            // Reset all checkboxes first
+            document.querySelectorAll('#addRoleModal input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+
+            // Load role permissions
+            var viewChecked = roleRow.querySelector(".role-perm-view").checked;
+            var createChecked = roleRow.querySelector(".role-perm-create").checked;
+            var editChecked = roleRow.querySelector(".role-perm-edit").checked;
+            var deleteChecked = roleRow.querySelector(".role-perm-delete").checked;
+
+            document.getElementById("permView").checked = viewChecked;
+            document.getElementById("permCreate").checked = createChecked;
+            document.getElementById("permEdit").checked = editChecked;
+            document.getElementById("permDelete").checked = deleteChecked;
+
+            // Show containers based on permission
+            document.getElementById("pageAccessViewContainer").style.display = viewChecked ? "block" : "none";
+            document.getElementById("pageAccessCreateContainer").style.display = createChecked ? "block" : "none";
+            document.getElementById("pageAccessEditContainer").style.display = editChecked ? "block" : "none";
+            document.getElementById("pageAccessDeleteContainer").style.display = deleteChecked ? "block" : "none";
+
+
+            // Load pages for VIEW
+            var viewPages = roleRow.getAttribute("data-view-pages");
+
+            if (viewPages === "ALL") {
+
+                document.querySelectorAll('#addRoleModal input[name="pageAccessView"]').forEach(cb => {
+                    cb.checked = true;
+                });
+
+            } else if (viewPages) {
+
+                viewPages.split("|").forEach(function(page) {
+                    var cb = document.querySelector('#addRoleModal input[name="pageAccessView"][value="' + page + '"]');
+                    if (cb) cb.checked = true;
+                });
+
+            }
+
+
+            // Load pages for CREATE
+            var createPages = roleRow.getAttribute("data-create-pages");
+
+            if (createPages === "ALL") {
+
+                document.querySelectorAll('#addRoleModal input[name="pageAccessCreate"]').forEach(cb => {
+                    cb.checked = true;
+                });
+
+            } else if (createPages) {
+
+                createPages.split("|").forEach(function(page) {
+                    var cb = document.querySelector('#addRoleModal input[name="pageAccessCreate"][value="' + page + '"]');
+                    if (cb) cb.checked = true;
+                });
+
+            }
+
+
+            // Load pages for EDIT
+            var editPages = roleRow.getAttribute("data-edit-pages");
+
+            if (editPages === "ALL") {
+
+                document.querySelectorAll('#addRoleModal input[name="pageAccessEdit"]').forEach(cb => {
+                    cb.checked = true;
+                });
+
+            } else if (editPages) {
+
+                editPages.split("|").forEach(function(page) {
+                    var cb = document.querySelector('#addRoleModal input[name="pageAccessEdit"][value="' + page + '"]');
+                    if (cb) cb.checked = true;
+                });
+
+            }
+
+
+            // Load pages for DELETE
+            var deletePages = roleRow.getAttribute("data-delete-pages");
+
+            if (deletePages === "ALL") {
+
+                document.querySelectorAll('#addRoleModal input[name="pageAccessDelete"]').forEach(cb => {
+                    cb.checked = true;
+                });
+
+            } else if (deletePages) {
+
+                deletePages.split("|").forEach(function(page) {
+                    var cb = document.querySelector('#addRoleModal input[name="pageAccessDelete"][value="' + page + '"]');
+                    if (cb) cb.checked = true;
+                });
+
+            }
+
+            // Open modal
+            var modal = new bootstrap.Modal(document.getElementById("addRoleModal"));
+            modal.show();
+        }
+
+    });
+</script>

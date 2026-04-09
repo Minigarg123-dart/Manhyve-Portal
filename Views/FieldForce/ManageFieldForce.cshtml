@@ -1,0 +1,246 @@
+﻿@model List<dynamic>
+<style>
+    .agent-modal {
+        border-radius: 16px;
+        border-top: 4px solid #dc3545;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    .agent-icon {
+        width: 45px;
+        height: 45px;
+        background: #e9f0ff;
+        color: #2d6cdf;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-size: 20px;
+    }
+</style>
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <input type="hidden" value="@ViewBag.ProjectName" />
+            <h4 class="mb-0">Field Force</h4>
+            <p class="text-muted mb-0">
+                Manage field force records
+            </p>
+        </div>
+
+        <div>
+            <a href="/FieldForce/AddAgent?projectName=@ViewBag.ProjectName" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> Add Field Force
+            </a>
+        </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="card p-3">
+
+        <table class="table align-middle">
+            <thead>
+                <tr class="text-muted small">
+                    <th>USERNAME</th>
+                    <th>EMAIL</th>
+                    <th>PHONE</th>
+                    <th>ADDRESS</th>
+                    <th>PINCODE</th>
+                    <th class="text-end">ACTIONS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Address</td>
+                        <td>@item.Pincode</td>
+                        <td class="text-end">
+                           @*  <a href="#" class="text-decoration-none">
+                                <i class="fas fa-eye me-1"></i> View
+                            </a> *@
+                            <button class="btn btn-sm btn-light viewAgentBtn"
+                                    data-username="@item.UserName"
+                                    data-email="@item.Email"
+                                    data-phone="@item.Phone"
+                                    data-address="@item.Address"
+                                    data-pincode="@item.Pincode">
+
+                                <i class="fas fa-eye me-1"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="agentDetailsModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                <div class="modal-content agent-modal p-3">
+
+                    <!-- Header -->
+                    <div class="modal-header border-0">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="agent-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+
+                            <div>
+                                <h5 class="mb-0">Agent Details</h5>
+                                <small class="text-muted">
+                                    Complete agent information and context
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- LEFT SIDE -->
+                            <div class="col-md-6">
+
+                                <p class="text-muted mb-2">Agent summary</p>
+
+                                <h6 id="agentName"></h6>
+
+                                <p class="text-muted mb-1">
+                                    Agent ID: <span id="agentId">3</span>
+                                </p>
+
+                                <p id="agentAddress"></p>
+
+                                <div class="row mt-3">
+
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Email</p>
+                                        <span id="agentEmail"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Phone</p>
+                                        <span id="agentPhone"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mt-3">
+
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Pincode</p>
+                                        <span id="agentPincode"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Created At</p>
+                                        <span>2025-10-07</span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- RIGHT SIDE -->
+                            <div class="col-md-6">
+
+                                <p class="text-muted mb-2">
+                                    Additional Information
+                                </p>
+
+                                <p class="text-muted">
+                                    Agent information and details are displayed here.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0">
+
+                        <button class="btn btn-light rounded-pill px-4"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+
+            <small class="text-muted">
+                Showing 1 to 100 of 1053 audits
+            </small>
+
+            <div>
+                <button class="btn btn-light btn-sm me-2">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <span class="small text-muted">Page 1 of 11</span>
+
+                <button class="btn btn-light btn-sm ms-2">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    document.querySelectorAll(".viewAgentBtn").forEach(btn => {
+
+        btn.addEventListener("click", function() {
+
+            document.getElementById("agentName").innerText =
+                this.dataset.username;
+
+            document.getElementById("agentEmail").innerText =
+                this.dataset.email;
+
+            document.getElementById("agentPhone").innerText =
+                this.dataset.phone;
+
+            document.getElementById("agentAddress").innerText =
+                this.dataset.address;
+
+            document.getElementById("agentPincode").innerText =
+                this.dataset.pincode;
+
+            var modal = new bootstrap.Modal(
+                document.getElementById("agentDetailsModal")
+            );
+
+            modal.show();
+
+        });
+
+    });
+
+</script>
