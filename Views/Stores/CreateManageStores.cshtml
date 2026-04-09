@@ -1,0 +1,653 @@
+@model List<dynamic>
+<style>
+    /* modal container */
+    #categoriesModal .modal-content {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    /* divider line */
+    .categories-divider {
+        border-top: 1px solid #e9ecef;
+        margin: 20px 0;
+    }
+
+    /* cards */
+    .categories-card {
+        background: #f8f9fb;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+        position: relative;
+    }
+
+        /* gradient top border */
+        .categories-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 12px 12px 0 0;
+            background: linear-gradient(90deg,#6c63ff,#ff6ec7);
+        }
+
+    /* empty state boxes */
+    .category-empty,
+    .subcategory-empty {
+        background: #f1f3f5;
+        border-radius: 10px;
+        padding: 25px;
+        text-align: center;
+        color: #6c757d;
+        margin-top: 15px;
+    }
+
+    /* small add button */
+    .category-add-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+    }
+
+    /* reduce modal width */
+    .categories-modal{
+        max-width:900px;
+    }
+
+    /* optional: make modal a little tighter */
+    #categoriesModal .modal-body{
+        padding:20px 25px;
+    }
+   .categories-modal{
+    max-width:860px;
+}
+
+/* header card effect */
+.categories-header{
+    background:#f8f9fb;
+    border-radius:10px;
+    padding:18px 20px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    margin-bottom:15px;
+}
+
+/* icon circle */
+.menu-icon{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:#e9edf5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#5c6ac4;
+    font-size:14px;
+}
+/* modal width */
+.store-details-modal{
+    max-width:720px;
+}
+
+/* modal card style */
+.store-modal{
+    border-radius:14px;
+    border:none;
+    box-shadow:0 10px 35px rgba(0,0,0,0.15);
+    overflow:hidden;
+}
+
+/* header style */
+.store-modal .modal-header{
+    background:#f8f9fb;
+    padding:18px 22px;
+}
+
+/* body spacing */
+.store-modal .modal-body{
+    padding:22px;
+}
+
+/* icon circle */
+.store-icon{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:#eef2ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#4f46e5;
+    font-size:16px;
+}
+.store-modal .modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-backdrop{
+    z-index:1040 !important;
+}
+
+.modal{
+    z-index:1055 !important;
+}
+
+</style>
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <input type="hidden" value="@ViewBag.ProjectName" />
+            <h4 class="mb-0">Create & Manage Stores</h4>
+            <p class="text-muted mb-0">Manage store records</p>
+        </div>
+
+        <div class="d-flex flex-column gap-2">
+
+            <a href="/Stores/CreateNewStore?projectName=@ViewBag.ProjectName"
+                   class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> Add New Store
+            </a>
+
+            <button class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#categoriesModal">
+                <i class="fas fa-layer-group me-2"></i> Categories
+            </button>
+
+        </div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap mb-3">
+        <input type="text" class="form-select form-select-sm w-auto" placeholder="Search by store code">
+        <input type="text" class="form-select form-select-sm w-auto" placeholder="Search by store name">
+        <select class="form-select form-select-sm w-auto">
+            <option>All</option>
+            <option>Pending</option>
+            <option>Approved</option>
+        </select>
+            
+    </div>
+
+    <!-- Table Card -->
+    <div class="card p-3">
+
+        <table class="table align-middle">
+            <thead>
+                <tr class="text-muted small">
+                    <th>STORE CODE</th>
+                    <th>STORE NAME</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th class="text-end">ACTIONS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.StoreCode</td>
+                        <td>@item.StoreName</td>
+                        <td>@item.Address</td>
+                        <td>@item.Phone</td>
+                        <td>
+                            <span class="badge bg-success rounded-pill px-3">
+                                @item.Status
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-light viewStoreBtn"
+                                    data-storecode="@item.StoreCode"
+                                    data-storename="@item.StoreName"
+                                    data-address="@item.Address"
+                                    data-phone="@item.Phone"
+                                    data-status="@item.Status"
+                                    data-id="@item.StoreID">
+
+                                <i class="fas fa-eye me-1"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+            <div class="modal fade" id="storeDetailsModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered store-details-modal">
+                    <div class="modal-content store-modal">
+                            <!-- Header -->
+                           <div class="modal-header border-0">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="store-icon">
+                                        <i class="fas fa-store"></i>
+                                    </div>
+
+                                    <div>
+                                        <h5 class="mb-0">Store Details</h5>
+                                        <small class="text-muted">
+                                            Complete store information and context
+                                        </small>
+                                    </div>
+                                </div>
+                                <!-- Right side buttons -->
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <button class="btn btn-outline-primary btn-sm" id="editStoreDetailsBtn" data-bs-toggle="modal" data-bs-target="#updateStoreModal" data-bs-dismiss="modal">
+                                        <i class="fas fa-edit me-1"></i> Edit Details
+                                    </button>
+
+                                   <button class="btn btn-outline-secondary btn-sm editCategoryBtn">
+                                        <i class="fas fa-tags me-1"></i> Edit Category
+                                   </button>
+
+                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+
+                                </div>
+                           </div>
+
+                            <!-- Body -->
+                            <div class="modal-body">
+
+                                <div class="row">
+
+                                    <!-- LEFT -->
+                                    <div class="col-md-6">
+
+                                        <p class="text-muted mb-1">Store Information</p>
+
+                                        <h5 id="modalStoreName"></h5>
+                                        <p class="mb-1 text-muted">
+                                            Store ID: <span id="modalStoreId"></span>
+                                        </p>
+                                        <p class="text-muted mb-1">
+                                            Store Code: <span id="modalStoreCode"></span>
+                                        </p>
+
+                                        <p id="modalAddress"></p>
+
+                                        <div class="row mt-3">
+
+                                            <div class="col-6">
+                                                <small class="text-muted">Status</small>
+                                                <br>
+                                                <span id="modalStatus"
+                                                      class="badge bg-success rounded-pill px-3"></span>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <small class="text-muted">Phone</small>
+                                                <br>
+                                                <span id="modalPhone"></span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- RIGHT -->
+                                    <div class="col-md-6">
+
+                                        <p class="text-muted mb-2">
+                                            Classification & Metadata
+                                        </p>
+
+                                        <div class="row">
+
+                                            <div class="col-6">
+                                                <small class="text-muted">Category</small>
+                                                <p>Not set</p>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <small class="text-muted">Sub-Category</small>
+                                                <p>Not set</p>
+                                            </div>
+
+                                        </div>
+
+                                        <small class="text-muted">Created At</small>
+                                        <p>2026-03-20</p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="modal-footer border-0">
+                                <button class="btn btn-light rounded-pill px-4"
+                                        data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+        <!-- UPDATE STORE MODAL -->
+        <div class="modal fade" id="updateStoreModal" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+                <div class="modal-content shadow-lg" style="border-radius: 12px; border: none; border-top: 4px solid #dc3545;">
+                    <div class="modal-body p-4">
+                        
+                        <!-- Header Area -->
+                        <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                            <div style="width: 40px; height: 40px; border-radius: 8px; background-color: #eef2ff; color: #4f46e5; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">Update Store</h6>
+                                <small class="text-muted">Update the information for this store</small>
+                            </div>
+                        </div>
+
+                        <!-- Form Area -->
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label text-muted small mb-1">Store Name *</label>
+                                <input type="text" class="form-control form-control-sm border" id="updateStoreName" placeholder="Enter store name">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label text-muted small mb-1">Store Code</label>
+                                <input type="text" class="form-control form-control-sm border" id="updateStoreCode" placeholder="Enter store code">
+                                <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Leave blank to auto-generate from store ID</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label text-muted small mb-1">Phone Number *</label>
+                                <input type="text" class="form-control form-control-sm border" id="updatePhone" placeholder="Enter phone number">
+                                <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Enter exactly 10 digits (no spaces or dashes)</small>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-muted small mb-1">Store Address *</label>
+                                <input type="text" class="form-control form-control-sm border" id="updateAddress" placeholder="Enter address">
+                            </div>
+
+                            <h6 class="fw-bold mb-3">For Vendors</h6>
+                            
+                            <div class="row mb-4">
+                                <div class="col-6">
+                                    <label class="form-label text-muted small mb-1">Category</label>
+                                    <select class="form-select form-select-sm border">
+                                        <option>Select Category</option>
+                                    </select>
+                                    <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Optional - Select the store category</small>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label text-muted small mb-1">Subcategory</label>
+                                    <select class="form-select form-select-sm border">
+                                        <option>Select Subcategory</option>
+                                    </select>
+                                    <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Optional - Select the store subcategory</small>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-2">
+                                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary rounded-pill px-4">Update Store</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+
+            <small class="text-muted">
+                Showing 1 to 8 of 8 branding audits
+            </small>
+
+            <div>
+                <button class="btn btn-light btn-sm me-2">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <span class="small text-muted">Page 1 of 8</span>
+                <button class="btn btn-light btn-sm ms-2">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+   <div class="modal fade" id="categoriesModal" data-bs-backdrop="static">
+                <div class="modal-dialog modal-lg modal-dialog-centered categories-modal">
+                    <div class="modal-content p-3">
+
+                        <!-- HEADER -->
+                       <div class="modal-header border-0 categories-header">
+
+                            <div class="d-flex align-items-start gap-3">
+
+                                <!-- 3 Lines Icon -->
+                                <div class="menu-icon">
+                                    <i class="fas fa-bars"></i>
+                                </div>
+
+                                <div>
+                                    <h5 class="mb-0">Manage Categories</h5>
+                                    <small class="text-muted">
+                                        Create and organize store categories and subcategories
+                                    </small>
+                                </div>
+
+                            </div>
+
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+
+                        </div>
+
+                        <!-- FILTER -->
+                        <div class="mb-3">
+                            <label class="form-label me-2">Filter by Brand:</label>
+
+                            <select class="form-select w-auto d-inline-block">
+                                <option>All Brands</option>
+                                <option>Castrol</option>
+                                <option>Bata</option>
+                                <option>CMC</option>
+                                <option>Mobil</option>
+                                <option>Berger</option>
+                            </select>
+                        </div>
+                        <div class="categories-divider"></div>
+                        @* <hr> *@
+
+                        <!-- MAIN CONTENT -->
+                        <div class="row">
+
+                            <!-- LEFT PANEL -->
+                            <div class="col-md-5">
+
+                                <div class="categories-card">
+
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                                        <h6 class="mb-0">Categories</h6>
+
+                                        <div class="d-flex gap-2">
+
+                                            <input type="text"
+                                                   class="form-control form-control-sm"
+                                                   placeholder="New Category"
+                                                   style="width:150px">
+
+                                            <button class="btn btn-light border category-add-btn">+</button>
+
+                                        </div>
+
+                                    </div>
+
+                                   @*  <div class="category-empty">
+                                        No categories found
+                                    </div> *@
+                                    <div class="list-group mt-3">
+
+                                        <button class="list-group-item list-group-item-action active category-item">
+                                            Motorcycle Oil
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <!-- RIGHT PANEL -->
+                            <div class="col-md-7">
+
+                              @*   <div class="categories-card">
+
+                                    <h6 class="mb-3">
+                                        Subcategories
+                                        <small class="text-muted">(Select a category)</small>
+                                    </h6>
+
+                                   @*  <div class="subcategory-empty">
+                                        Select a category to view subcategories
+                                    </div> *@
+                                     @*   <div class="list-group mt-3">
+
+                                        <div class="list-group-item d-flex justify-content-between">
+                                            Regular Oil
+                                        </div>
+
+                                        <div class="list-group-item d-flex justify-content-between">
+                                            Premium Oil
+                                        </div>
+
+                                    </div>
+                                </div> *@
+                                  <div class="categories-card">
+
+                                    <h6 class="mb-3">
+                                        Subcategories
+                                    </h6>
+
+                                    <!-- Category Dropdown -->
+                                    <select class="form-select mb-3" id="categoryDropdown">
+                                        <option value="">Select a category</option>
+                                        <option value="motorcycle">Motorcycle Oil</option>
+                                    </select>
+
+                                    <!-- Subcategory List -->
+                                    <div id="subcategoryList" class="list-group"></div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.querySelectorAll(".viewStoreBtn").forEach(btn => {
+
+        btn.addEventListener("click", function() {
+              // document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
+              // document.body.classList.remove("modal-open");
+
+            document.getElementById("modalStoreId").innerText =
+                this.dataset.storecode;
+
+            document.getElementById("modalStoreCode").innerText =
+                this.dataset.storecode;
+
+            document.getElementById("modalStoreName").innerText =
+                this.dataset.storename;
+
+            document.getElementById("modalAddress").innerText =
+                this.dataset.address;
+
+            document.getElementById("modalPhone").innerText =
+                this.dataset.phone;
+
+            document.getElementById("modalStatus").innerText =
+                this.dataset.status;
+
+            var modal = new bootstrap.Modal(
+                document.getElementById("storeDetailsModal")
+            );
+
+            modal.show();
+
+        });
+
+    });
+
+    document.getElementById("editStoreDetailsBtn").addEventListener("click", function() {
+        // Pre-fill the update store form via the already populated Store Details Modal
+        document.getElementById("updateStoreCode").value = document.getElementById("modalStoreCode").innerText;
+        document.getElementById("updateStoreName").value = document.getElementById("modalStoreName").innerText;
+        document.getElementById("updateAddress").value = document.getElementById("modalAddress").innerText;
+        document.getElementById("updatePhone").value = document.getElementById("modalPhone").innerText;
+    });
+
+    document.querySelectorAll(".category-item").forEach(item => {
+    item.addEventListener("click", function () {
+
+        document.querySelectorAll(".category-item")
+        .forEach(c => c.classList.remove("active"));
+
+        this.classList.add("active");
+
+    });
+});
+
+    document.getElementById("categoryDropdown").addEventListener("change", function () {
+
+    var category = this.value;
+    var subList = document.getElementById("subcategoryList");
+
+    subList.innerHTML = "";
+
+    if (category === "motorcycle") {
+
+        subList.innerHTML = `
+            <div class="list-group-item">Regular Oil</div>
+            <div class="list-group-item">Premium Oil</div>
+        `;
+    }
+    else {
+
+        subList.innerHTML = `
+            <div class="text-muted p-3">
+                Select a category to view subcategories
+            </div>
+        `;
+    }
+
+});
+
+    document.querySelectorAll(".editCategoryBtn").forEach(btn => {
+
+    btn.addEventListener("click", function () {
+
+        let categoryModal = new bootstrap.Modal(
+            document.getElementById("categoriesModal"),
+            { backdrop: true }
+        );
+
+        categoryModal.show();
+
+    });
+});
+</script>

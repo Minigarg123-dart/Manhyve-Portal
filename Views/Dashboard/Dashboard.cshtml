@@ -1,36 +1,15 @@
 ﻿
 <div class="container-fluid">
 
-        <!-- Header Row -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Header Row -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
 
-            <!-- Left Side -->
-            <div>
-                <h1 class="greeting-sparkle">Hello master Admin</h1>
-                <h3 class="greeting-sub">Welcome back</h3>
-                @* <p class="mb-0">Dashboard</p> *@
-               @*  <p class="mb-0 text-muted">Monitor and manage your operations</p> *@
-            </div>
-
-        <!-- Right Side: MASTER Button -->
-        <div class="d-flex gap-2">
-
-            <select class="form-select w-auto">
-                <option selected>All Brands</option>
-                <option>Castrol</option>
-                <option>Mobil</option>
-                <option>Berger</option>
-                <option>CMC</option>
-                <option>Bata</option>
-            </select>
-
-            <!-- MASTER Button -->
-            <button class="btn btn-sm btn-primary">
-                MASTER
-            </button>
-
+        <!-- Left Side -->
+        <div>
+            <h3 class="mb-0">ManHyve @ViewBag.ProjectName Dashboard</h3>
+            <p class="mb-0 text-muted">Monitor and manage your operations at a glance</p>
         </div>
-        </div>
+    </div>
 
     <!-- Cards -->
     <!-- Analytical Overview -->
@@ -39,12 +18,6 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h5 class="mb-3">Analytical Overview</h5>
-            </div>
-            <div class="d-flex gap-2">
-                <button class="btn btn-sm text-white"
-                        style="background-color: #28a745; border-radius: 6px; border: none;">
-                    Export CSV
-                </button>
             </div>
         </div>
 
@@ -115,7 +88,7 @@
             <!-- LEFT: Charts -->
             <div class="border-end pe-3" style="min-width:150px;">
                 <p class="fw-semibold mb-2">Charts</p>
-                <div class="d-flex flex-column gap-2 w-100" id="chartButtons">
+                <div class="d-flex flex-column gap-2 w-100" id="chartButtons1">
 
                     <!-- Initially selected -->
                     <button class="btn btn-sm btn-primary text-start">
@@ -134,10 +107,10 @@
             <!-- RIGHT: Title -->
             <div class="ps-3 w-100">
                 <div class="mb-1">
-                <h5 class="mb-1">Audit Distribution</h5>
-                <p class="text-muted mb-0">
-                    Mapping the volume of attempts vs completions across the timeline
-                </p>
+                    <h5 class="mb-1">Audit Distribution</h5>
+                    <p class="text-muted mb-0">
+                        Mapping the volume of attempts vs completions across the timeline
+                    </p>
                 </div>
                 <div class="d-flex mb-3">
                     <div></div>
@@ -278,7 +251,7 @@
     </div>
 </div>
 <script>
-    const btnContainer = document.getElementById('chartButtons');
+    const btnContainer = document.getElementById('chartButtons1');
     const buttons = btnContainer.querySelectorAll('button');
 
     buttons.forEach(btn => {
@@ -298,7 +271,7 @@
         btn.addEventListener('click', () => {
             buttons.forEach(b => {
                 b.classList.remove('btn-primary', 'text-white');
-                b.style.backgroundColor = ''; 
+                b.style.backgroundColor = '';
             });
             btn.classList.add('btn-primary', 'text-white');
         });

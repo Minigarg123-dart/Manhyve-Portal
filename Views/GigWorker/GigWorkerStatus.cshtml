@@ -1,0 +1,128 @@
+﻿    @model IEnumerable<dynamic>
+
+    <div class="container-fluid">
+
+        <h3 class="fw-bold mb-4">Gig Worker Status</h3>
+
+
+        <!-- SEARCH CARD -->
+
+        <div class="card p-3 mb-4">
+
+            <div class="text-muted small mb-3 fw-bold">
+                SEARCH & FILTER RECORDS
+            </div>
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-3">
+                    <label class="form-label">Filter by Status</label>
+
+                    <select class="form-select">
+                        <option>All Status</option>
+                        <option>Pending Review</option>
+                        <option>Approved</option>
+                        <option>Rejected</option>
+                    </select>
+                </div>
+
+                <div class="col-md-7">
+                    <label class="form-label">Search Worker</label>
+
+                    <input class="form-control"
+                           placeholder="Type worker name..." />
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100">
+                        Apply Filter
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TABLE -->
+
+        <div class="card">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>PROFILE</th>
+                        <th>FULL NAME</th>
+                        <th>CURRENT STATE</th>
+                        <th class="text-end">ACTIONS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var worker in Model)
+                    {
+                        var initials = worker.FullName.Substring(0, 1);
+
+                        <tr>
+
+                            <!-- PROFILE -->
+
+                            <td style="width:80px">
+                                <div class="rounded-circle bg-light text-center fw-bold"
+                                     style="width:40px;height:40px;line-height:40px">
+
+                                    @initials
+
+                                </div>
+                            </td>
+
+
+                            <!-- NAME -->
+
+                            <td class="fw-medium">
+                                @worker.FullName
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                <span class="badge bg-warning text-dark">
+                                    @worker.Status
+                                </span>
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td class="text-end">
+
+                                <a href="#" class="text-primary me-3">
+                                    Review
+                                </a>
+
+                                <button class="btn btn-success btn-sm me-2">
+                                    Approve
+                                </button>
+
+                                <button class="btn btn-outline-danger btn-sm">
+                                    Reject
+                                </button>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>

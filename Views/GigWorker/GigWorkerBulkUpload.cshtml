@@ -1,0 +1,88 @@
+﻿<form asp-controller="GigWorker"
+      asp-action="UploadGigWorkerCSV"
+      method="post"
+      enctype="multipart/form-data">
+
+    <div class="container-fluid">
+
+        <div class="mb-3">
+            <h4 class="mb-0">Upload Gig Worker Data</h4>
+            <p class="text-muted">
+                Upload CSV file containing Gig Worker details
+            </p>
+        </div>
+
+        <div class="row g-3 align-items-stretch">
+
+            <!-- LEFT -->
+            <div class="col-md-7">
+                <div class="card p-4 text-center h-100">
+
+                    <input type="file"
+                           id="dataFile"
+                           name="file"
+                           accept=".csv"
+                           style="display:none;" />
+
+                    <div id="uploadBox"
+                         style="border:2px dashed #ddd; border-radius:10px; padding:40px; cursor:pointer;">
+
+                        <i class="fas fa-file-upload fa-3x mb-3 text-muted"></i>
+
+                        <h6 class="mb-1">Click to browse or drag CSV file</h6>
+                        <p class="text-muted small">Supported format: .csv</p>
+
+                        <p id="fileName" class="mt-2 text-primary small"></p>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 mt-4">
+
+                        <button type="submit"
+                                class="btn btn-primary d-flex align-items-center justify-content-center flex-fill">
+
+                            <i class="fas fa-upload me-2"></i>
+                            Upload CSV
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-md-5">
+                <div class="card p-4 h-100">
+
+                    <h6 class="mb-3">
+                        <i class="fas fa-info-circle me-2"></i> Instructions
+                    </h6>
+
+                    <ol class="text-muted small ps-3">
+                        <li>Upload CSV file with worker details</li>
+                        <li>CSV must contain FullName and CurrentState</li>
+                        <li>After upload workers will appear in status page</li>
+                    </ol>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+<script>
+
+    document.getElementById("uploadBox").onclick = function() {
+        document.getElementById("dataFile").click();
+    };
+
+    document.getElementById("dataFile").addEventListener("change", function() {
+
+        if (this.files.length > 0) {
+            document.getElementById("fileName").innerText = this.files[0].name;
+        }
+
+    });
+
+</script>

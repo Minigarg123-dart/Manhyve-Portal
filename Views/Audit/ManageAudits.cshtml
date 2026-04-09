@@ -1,0 +1,257 @@
+﻿@model List<dynamic>
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <input type="hidden" value="@ViewBag.ProjectName" />
+            <h4 class="mb-0">Manage Audits</h4>
+            <p class="text-muted mb-0">Manage audit records</p>
+        </div>
+
+        <div>
+            <button class="btn btn-outline-secondary me-2">
+                <i class="fas fa-download me-2"></i> Download CSV
+            </button>
+
+            <a href="/Audit/CreateAudit" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> Add Audit
+            </a>
+        </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="card p-3">
+
+        <table class="table align-middle">
+            <thead>
+                <tr class="text-muted small">
+                    <th>STORE CODE</th>
+                    <th>STORE NAME</th>
+                    <th>AUDIT STATUS</th>
+                    <th class="text-end">ACTIONS</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.StoreCode</td>
+                        <td>@item.StoreName</td>
+
+                        <td>
+                            <span class="badge bg-success rounded-pill px-3">
+                                @item.Status
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+                            @* <a href="#" class="text-decoration-none">
+                                <i class="fas fa-eye me-1"></i> View
+                            </a> *@
+                            <button class="btn btn-sm btn-light viewAuditBtn"
+                                    data-store="@item.StoreName"
+                                    data-code="@item.StoreCode"
+                                    data-status="@item.Status"
+                                    data-id="@item.AuditID">
+                                <i class="fas fa-eye me-1"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="auditModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content p-3">
+
+                    <!-- Header -->
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title">
+                            <i class="fas fa-home text-primary me-2"></i>
+                            Audit Details
+                        </h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <div class="row">
+
+                            <!-- LEFT SIDE -->
+                            <div class="col-md-6">
+
+                                <p class="text-muted mb-1">Audit summary</p>
+
+                                <h5 id="storeName"></h5>
+
+                                <p class="mb-1 text-muted">
+                                    Audit ID: <span id="auditId"></span>
+                                </p>
+
+                                <p class="text-muted">
+                                    Address will come here
+                                </p>
+
+                                <div class="d-flex gap-4 mt-3">
+
+                                    <div>
+                                        <p class="text-muted mb-1">Audit status</p>
+                                        <span id="auditStatus"
+                                              class="badge bg-warning text-dark px-3">
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-muted mb-1">Audit date & time</p>
+                                        <p class="mb-0">2026-03-26 6:18 PM</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex gap-4 mt-3">
+
+                                    <div>
+                                        <p class="text-muted mb-1">Assigned to</p>
+                                        <p class="mb-0">User Name</p>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-muted mb-1">Geo location</p>
+                                        <p class="mb-0">24.136457, 83.054505</p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- RIGHT SIDE -->
+                            <div class="col-md-6">
+
+                                <p class="text-muted mb-1">Audit photographs</p>
+
+                                <div class="row">
+
+                                    <div class="col-6">
+                                        <p class="text-primary small fw-bold">
+                                            PRE AUDIT PHOTO
+                                        </p>
+
+                                        <img src="/images/store1.jpg"
+                                             class="img-fluid rounded shadow">
+                                    </div>
+
+                                    <div class="col-6">
+                                        <p class="text-primary small fw-bold">
+                                            POST AUDIT PHOTO
+                                        </p>
+
+                                        <img src="/images/store2.jpg"
+                                             class="img-fluid rounded shadow">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0">
+                        <button class="btn btn-light" data-bs-dismiss="modal">
+                            Close
+                        </button>
+
+                       @*  <a href="#" class="btn btn-primary">
+                            View Details
+                        </a> *@
+                        <a id="viewDetailsBtn" href="#" class="btn btn-primary">
+                            View Details
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+
+            <small class="text-muted">
+                Showing 1 to 100 of 1053 audits
+            </small>
+
+            <div>
+                <button class="btn btn-light btn-sm me-2">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <span class="small text-muted">Page 1 of 11</span>
+
+                <button class="btn btn-light btn-sm ms-2">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+    // document.querySelectorAll(".viewAuditBtn").forEach(btn => {
+
+    //     btn.addEventListener("click", function() {
+
+    //         document.getElementById("storeName").innerText =
+    //             this.dataset.store;
+
+    //         document.getElementById("auditId").innerText =
+    //             this.dataset.id;
+
+    //         document.getElementById("auditStatus").innerText =
+    //             this.dataset.status;
+
+    //         var modal = new bootstrap.Modal(
+    //             document.getElementById("auditModal")
+    //         );
+
+    //         modal.show();
+    //     });
+
+    // });
+    document.querySelectorAll(".viewAuditBtn").forEach(btn => {
+
+        btn.addEventListener("click", function() {
+
+            let auditId = this.dataset.id;
+
+            document.getElementById("storeName").innerText =
+                this.dataset.store;
+
+            document.getElementById("auditId").innerText =
+                auditId;
+
+            document.getElementById("auditStatus").innerText =
+                this.dataset.status;
+
+            document.getElementById("viewDetailsBtn").href =
+                // "/Audit/AuditDetails/" + auditId;
+            "/Audit/AuditDetails?AuditID=" + auditId + "&projectName=@ViewBag.ProjectName";
+
+            var modal = new bootstrap.Modal(
+                document.getElementById("auditModal")
+            );
+
+            modal.show();
+        });
+
+    });
+</script>

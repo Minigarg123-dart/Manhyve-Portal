@@ -1,0 +1,134 @@
+﻿@model dynamic
+<div class="container-fluid">
+
+    <!-- TOP HEADER (NO CARD) -->
+    <div class="d-flex align-items-center mb-3">
+
+        <!-- BACK BUTTON -->
+        <a href="/Audit/ManageAudits?projectName=@ViewBag.ProjectName"
+               class="btn btn-light border">
+            <i class="fas fa-arrow-left"></i> Back to Manage Audits
+        </a>
+        <button class="btn btn-outline-secondary me-2">
+            <i class="fas fa-download me-2"></i> Download PDF
+        </button>
+        <!-- RIGHT SIDE -->
+        <div class="ms-auto d-flex align-items-center" style="margin-right: 300px;">
+            <span class="badge bg-warning text-dark me-3">
+                @Model.Status
+            </span>
+
+            <span class="fw-bold">
+                Audit #@Model.AuditID
+            </span>
+        </div>
+    </div>
+
+
+    <!-- DETAILS CARD -->
+    <div class="card p-4" style="max-width:900px;">
+        <div class="row g-3">
+            <!-- IMAGE -->
+            <div class="col-md-5">
+                <div class="card p-3 h-100 d-flex align-items-center justify-content-center">
+                    <img src="/images/store1.jpg"
+                         class="img-fluid rounded shadow"
+                         style="max-height:300px;" />
+                </div>
+            </div>
+
+
+            <!-- RIGHT DETAILS -->
+            <div class="col-md-7">
+
+                <!-- ROW 1 -->
+                <div class="row g-3">
+
+                    <!-- STORE -->
+                    <div class="col-md-4 d-flex">
+                        <div class="card p-3 text-center w-100 h-100 position-relative">
+
+                            <button class="btn btn-sm btn-light position-absolute"
+                                    style="top:8px; right:8px;">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+
+                            <label class="text-muted small">STORE</label>
+                            <h6>@Model.StoreName</h6>
+
+                        </div>
+                    </div>
+
+                    <!-- ADDRESS -->
+                    <div class="col-md-4 d-flex">
+                        <div class="card p-3 text-center w-100 h-100 position-relative">
+
+                            <button class="btn btn-sm btn-light position-absolute"
+                                    style="top:8px; right:8px;">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+
+                            <label class="text-muted small">ADDRESS</label>
+                            <p class="mb-0">@Model.Address</p>
+
+                        </div>
+                    </div>
+
+                    <!-- CAPTURED BY -->
+                    <div class="col-md-4 d-flex">
+                        <div class="card p-3 text-center w-100 h-100">
+                            <label class="text-muted small">CAPTURED BY</label>
+                            <p class="mb-0">@Model.CapturedBy</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ROW 2 -->
+                <div class="row g-3 mt-1">
+
+                    <div class="col-md-4 d-flex">
+                        <div class="card p-3 text-center w-100 h-100">
+                            <label class="text-muted small">TAKEN ON</label>
+                            <p class="mb-0">@Model.TakenOn</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 d-flex">
+                        <div class="card p-3 text-center w-100 h-100">
+                            <label class="text-muted small">FILENAME</label>
+                            <p class="mb-0">@Model.FileName</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 d-flex">
+                        <div class="card p-3 text-center w-100 h-100">
+                            <label class="text-muted small">LOCATION</label>
+                            <p class="mb-0">@Model.Location</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FORM SUBMISSION CARD -->
+    <div class="card p-4 mt-2" style="max-width:900px;">
+        <h5 class="fw-bold mb-1">Form Submission</h5>
+
+        <!-- DIVIDER -->
+        <hr/>
+
+        <div class="card p-2 mt-2">
+            <label class="text-muted small">VIBE:</label>
+            <h6>Good</h6>
+        </div>
+        <div class="card p-2 mt-2">
+            <label class="text-muted small">REMARKS:</label>
+            <h6>Dummy data auto-generated</h6>
+        </div>
+    </div>
+
+</div>
